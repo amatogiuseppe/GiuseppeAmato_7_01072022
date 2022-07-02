@@ -7,6 +7,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
+const postRoutes = require('./routes/post.routes');
+const userRoutes = require('./routes/user.routes');
+
 //Configuring Dotenv
 dotenv.config();
 
@@ -26,10 +29,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// Temporary middleware
-app.use((req, res) => {
-  res.json({ message: 'Server response!' });
-});
+// Middleware to handle the POST request and extract the JSON body
+app.use(express.json());
+
+// Routers
+app.use('/api/post', postRoutes);
+app.use('/api/auth', userRoutes);
 
 // Exporting the application
 module.exports = app;
