@@ -6,6 +6,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const path = require('path');
 
 const postRoutes = require('./routes/post.routes');
 const userRoutes = require('./routes/user.routes');
@@ -31,6 +32,9 @@ app.use((req, res, next) => {
 
 // Middleware to handle the POST request and extract the JSON body
 app.use(express.json());
+
+// Configuration to handle image files statically whenever there is a request to the /images route
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Routers
 app.use('/api/post', postRoutes);

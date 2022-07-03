@@ -4,14 +4,16 @@
 
 // Required modules
 const express = require('express');
+
 const postCtrl = require('../controllers/post.controller');
+const multer = require('../middleware/multer-config');
 
 // Post router
 const router = express.Router();
 
-router.post('/', postCtrl.createPost);
+router.post('/', multer, postCtrl.createPost);
 router.post('/:postId/like', postCtrl.likePost);
-router.put('/:postId', postCtrl.editPost);
+router.put('/:postId', multer,  postCtrl.editPost);
 router.delete('/:postId', postCtrl.deletePost);
 router.get('/', postCtrl.getAllPosts);
 
