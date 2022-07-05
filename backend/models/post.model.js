@@ -9,8 +9,8 @@ const mongoose = require('mongoose');
 const postSchema = mongoose.Schema(
   {
     postUserId: { type: String, required: true },
-    postBody: { type: String, required: true, maxLength: 500, trim: true },
-    imageUrl: { type: String, required: false },
+    postContent: { type: String, required: true, maxLength: 500, trim: true },
+    imageUrl: { type: String, required: false, default: '' },
     likes: { type: Number, required: false, default: 0 },
     dislikes: { type: Number, required: false, default: 0 },
     usersLiked: { type: [String], required: false, default: [] },
@@ -19,7 +19,7 @@ const postSchema = mongoose.Schema(
       type:
         [{
           commentUserId: { type: String },
-          commentBody: { type: String },
+          commentContent: { type: String },
           timestamp: { type: Number }
         }],
       required: false,

@@ -4,70 +4,136 @@
 
 // Required modules
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
 const UserModel = require('../models/user.model');
 
 //------------------------------------
-//  User sign-up
+//  Function to get one user
 //------------------------------------
-exports.signup = (req, res, next) => {
-  // using bcrypt to salt the password ten times
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-      // creating a new user
-      const user = new UserModel({
-        name: req.body.name,
-        surname: req.body.surname,
-        email: req.body.email,
-        password: hash
-      });
-      // saving the new user in the database
-      user.save()
-        .then(() => res.status(201).json({ message: 'User created!' }))
+exports.getOneUser = (req, res, next) => {
+  UserModel.findOne({ _id: req.params.userId }).select('-password')
+    .then(user => res.status(200).json(user))
+    .catch(error => res.status(404).json({ error }));
+};
+
+//------------------------------------
+//  Function to get all users
+//------------------------------------
+exports.getAllUsers = (req, res, next) => {
+  UserModel.find().select('-password')
+    .then(users => res.status(200).json(users))
+    .catch(error => res.status(400).json({ error }));
+};
+
+//------------------------------------
+//  Function to edit the user
+//------------------------------------
+exports.editUserInfo = (req, res, next) => {
+  UserModel.findOne({ _id: req.params.userId })
+    .then(user => {
+      // The specified user is not the same person who requested the modification
+      if ( req.auth.userId !== req.params.userId ) {
+        return res.status(401).json({ error: 'Request not allowed!' });
+      }
+      // If the user tries to change the password here he is blocked
+      if (req.body.password) {
+        return res.status(401).json({ error: 'It is not allowed to change the password here!' });
+      }
+      // Case 1: the user wants to change only the user information, but not the image
+      let userObject = { ...req.body };
+      // Case 2: the user may upload a new image along with the user information
+      if (req.file) {
+        const filename = user.imageUrl.split('/images/')[1];
+        userObject = {
+          ...JSON.parse(req.body.user),
+          imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        }
+        fs.unlink(`images/${filename}`, () => { userObject })
+      }
+      // Updating the user
+      UserModel.updateOne({ _id: req.params.userId }, { ...userObject, _id: req.params.userId })
+        .then(() => res.status(200).json({ message: 'User edited!'}))
         .catch(error => res.status(400).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
 };
 
 //------------------------------------
-//  User login
+//  Function to edit the password
 //------------------------------------
-exports.login = (req, res, next) => {
-  // the mongoose model checks that the email input by the user corresponds to a user in the database
-  UserModel.findOne({ email: req.body.email })
+exports.editUserPassword = (req, res, next) => {
+  UserModel.findOne({ _id: req.params.userId })
     .then(user => {
-      // Case 1: the user was not found
-      if (!user) {
-        return res.status(401).json({ error: 'User not found!' });
+      // The specified user is not the same person who requested the password change
+      if ( req.auth.userId !== req.params.userId ) {
+        return res.status(401).json({ error: 'Request not allowed!' });
       }
-      // Case 2: the user has been found, but the password must be verified
+      // To change the password you have to enter the old one first and then the new one
+      if (!req.body.oldPassword) {
+        return res.status(401).json({ error: 'You must first enter the old password!' });
+      }
+      if (!req.body.newPassword) {
+        return res.status(401).json({ error: 'You must enter the new password!' });
+      }
+      // Checking the old password
+      bcrypt.compare(req.body.oldPassword, user.password)
+        .then(valid => {
+          if (!valid) {
+            return res.status(401).json({ error: 'Invalid password!' });
+          }
+          if (req.body.newPassword == req.body.oldPassword) {
+            return res.status(401).json({ error: 'The new password must be different from the old one!' });
+          }
+          // Changing passaword
+          bcrypt.hash(req.body.newPassword, 10)
+            .then(hash => {
+              let userObject = { password: hash };
+              UserModel.updateOne({ _id: req.params.userId }, { ...userObject, _id: req.params.userId })
+                .then(() => res.status(200).json({ message: 'Password edited!'}))
+                .catch(error => res.status(400).json({ error }));
+            })
+            .catch(error => res.status(500).json({ error }));
+        })
+        .catch(error => res.status(500).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }))
+};
+
+//------------------------------------
+//  Function to delete the user
+//------------------------------------
+exports.deleteUser = (req, res, next) => {
+  UserModel.findOne({ _id: req.params.userId })
+    .then( user => {
+      // The specified user is not the same person who requested deletion of the account
+      if ( req.auth.userId !== req.params.userId ) {
+        return res.status(401).json({ error: 'Request not allowed!' });
+      }
+      // Asking for the password to get confirmation to delete the account
+      if (!req.body.password) {
+        return res.status(401).json({ error: 'Provide the password to delete the account!' });
+      }
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
-          // Case 2.1: the password is not correct
           if (!valid) {
-            return res.status(401).json({ error: 'Incorrect password!' });
+            return res.status(401).json({ error: 'Invalid password!' });
           }
-          // Case 2.2: the password is correct
-          res.status(200).json({
-            userId: user._id,
-            // encoding a new token
-            token: jwt.sign(
-              { userId: user._id },
-              process.env.SECRET_TOKEN_KEY,
-              { expiresIn: '24h' }
-            )
-          });
+          const filename = user.imageUrl.split('/images/')[1];
+          // Case 1: the user does not possess any personal image
+          if (filename == "") {
+            UserModel.deleteOne({ _id: req.params.userId })
+              .then(() => res.status(200).json({ message: 'The user was successfully deleted!'}))
+              .catch(error => res.status(400).json({ error }));
+          }
+          // Case 2: the user has a personal image that must also be deleted
+          else {
+            fs.unlink(`images/${filename}`, () => {
+              UserModel.deleteOne({ _id: req.params.userId })
+                .then(() => res.status(200).json({ message: 'The user was successfully deleted!'}))
+                .catch(error => res.status(400).json({ error }));
+            });
+          }
         })
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
 };
-
-/*
-Still to be done:
-- getAllUsers
-- getOneUser
-- editUser
-- deleteUser
-*/
