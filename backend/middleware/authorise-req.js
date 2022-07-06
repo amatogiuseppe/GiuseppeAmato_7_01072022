@@ -10,7 +10,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 //------------------------------------
-//  Authentication configuration
+//  Authorization configuration
 //------------------------------------
 module.exports = (req, res, next) => {
   try {
@@ -20,12 +20,7 @@ module.exports = (req, res, next) => {
     const userId = decodedToken.userId;
     // An object containing the user ID is added to the request
     req.auth = { userId };
-    // token checking
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid User ID!';
-    } else {
-      next();
-    }
+    next();
   } catch {
     res.status(401).json({ message: 'Request not allowed!' });
   }

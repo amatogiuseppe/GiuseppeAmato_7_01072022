@@ -10,11 +10,9 @@ const postSchema = mongoose.Schema(
   {
     postUserId: { type: String, required: true },
     postContent: { type: String, required: true, maxLength: 500, trim: true },
-    imageUrl: { type: String, required: false, default: '' },
+    imageUrl: { type: String, required: false, default: "../images/" },
     likes: { type: Number, required: false, default: 0 },
-    dislikes: { type: Number, required: false, default: 0 },
-    usersLiked: { type: [String], required: false, default: [] },
-    usersDisliked: { type: [String], required: false, default: [] },
+    likers: { type: [String], required: false, default: [] },
     comments: {
       type:
         [{
