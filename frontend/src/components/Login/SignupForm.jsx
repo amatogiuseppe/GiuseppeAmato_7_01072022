@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function SignupForm({handleModals}) {
+function SignupForm({handleModals, setFormSubmit, showLogin}) {
 
   // Name, surname, email and password typed in by the user
   const [name, setName] = useState("");
@@ -13,6 +13,7 @@ function SignupForm({handleModals}) {
   const [nameErrorMessage, setNameErrorMessage] = useState(false);
   const [surnameErrorMessage, setSurnameErrorMessage] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState(false);
+  const [uniqueEmailErrorMessage, setUniqueEmailErrorMessage] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
 
   // Function that is called when the user tries to register with the new credentials
@@ -30,16 +31,20 @@ function SignupForm({handleModals}) {
     })
       .then( res => {
         console.log(res.data);
-        if ( nameErrorMessage || surnameErrorMessage || emailErrorMessage || passwordErrorMessage ) {
-          setNameErrorMessage(false);
-          setSurnameErrorMessage(false);
-          setEmailErrorMessage(false);
-          setPasswordErrorMessage(false);
-        }
-        window.location = "/login";
+        setNameErrorMessage(false);
+        setSurnameErrorMessage(false);
+        setEmailErrorMessage(false);
+        setUniqueEmailErrorMessage(false);
+        setPasswordErrorMessage(false);
+        setFormSubmit(true);
       })
       .catch( err => {
         console.log(err);
+        setNameErrorMessage(false);
+        setSurnameErrorMessage(false);
+        setEmailErrorMessage(false);
+        setUniqueEmailErrorMessage(false);
+        setPasswordErrorMessage(false);
         switch (err.response.data.error) {
           case 'Invalid name. Please respect this format: Jon':
             setNameErrorMessage(true);
@@ -53,14 +58,54 @@ function SignupForm({handleModals}) {
           case 'The password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and no spaces or special characters':
             setPasswordErrorMessage(true);
           break;
+          case 'This email is already in use':
+            setUniqueEmailErrorMessage(true);
+          break;
           default:
             console.log(err);
         }
       });
   }
 
+  // Function to assist the user in entering a valid password
+  function checkPassword(password) {
+    document.querySelector('.login-form__password-assist').removeAttribute("hidden");
+    if (password.length >= 8) {
+      document.getElementById('password-assist__pass-length').classList.add("active-list-item");
+    } else {
+      document.getElementById('password-assist__pass-length').classList.remove("active-list-item");
+    }
+    if (password.match(/[A-Z]/)) {
+      document.getElementById('password-assist__pass-majuscule').classList.add("active-list-item");
+    } else {
+      document.getElementById('password-assist__pass-majuscule').classList.remove("active-list-item");
+    }
+    if (password.match(/[a-z]/)) {
+      document.getElementById('password-assist__pass-minuscule').classList.add("active-list-item");
+    } else {
+      document.getElementById('password-assist__pass-minuscule').classList.remove("active-list-item");
+    }
+    if (password.match(/[0-9]/)) {
+      document.getElementById('password-assist__pass-chiffre').classList.add("active-list-item");
+    } else {
+      document.getElementById('password-assist__pass-chiffre').classList.remove("active-list-item");
+    }
+  };
+
+  // Function showing the password the user is typing in
+  function showPassword() {
+    const type = document.querySelector('#id_password').getAttribute('type') === 'password' ? 'text' : 'password';
+    document.querySelector('#id_password').setAttribute('type', type);
+    document.querySelector('#togglePassword').classList.toggle('fa-eye-slash');
+  }
+
   return (
-    <form className='login-form' onSubmit={handleSignup}>
+    <form
+    className='login-form'
+    onSubmit={(e) => {
+      handleSignup(e);
+      showLogin();
+    }}>
 
       {/* Name input */}
       <input
@@ -73,9 +118,9 @@ function SignupForm({handleModals}) {
 
       {/* Possible error message due to invalid name */}
       {nameErrorMessage &&
-      <div className='name-error-message'>
+      <div className='login-form__error-message'>
         <i class="fas fa-exclamation-circle"></i>
-        <span className='name-error-message__text'>Nom non valide. <br/> Veuillez respecter ce format : Jon</span>
+        <span className='login-form__error-message__text'>Nom non valide. <br/> Veuillez respecter ce format : Jon</span>
       </div> }
 
       {/* Surname input */}
@@ -89,9 +134,9 @@ function SignupForm({handleModals}) {
 
       {/* Possible error message due to invalid surname */}
       {surnameErrorMessage &&
-      <div className='surname-error-message'>
+      <div className='login-form__error-message'>
         <i class="fas fa-exclamation-circle"></i>
-        <span className='surname-error-message__text'>Nom de famille invalide. <br/> Veuillez respecter ce format : Snow</span>
+        <span className='login-form__error-message__text'>Nom de famille invalide. <br/> Veuillez respecter ce format : Snow</span>
       </div> }
 
       {/* Email input */}
@@ -103,27 +148,61 @@ function SignupForm({handleModals}) {
         required
       />
 
-      {/* Possible error message due to invalid email */}
+      {/* Possible error message due to invalid email format */}
       {emailErrorMessage &&
-      <div className='email-error-message'>
+      <div className='login-form__error-message'>
         <i class="fas fa-exclamation-circle"></i>
-        <span className='email-error-message__text'>E-mail non valide. <br/> Veuillez respecter ce format : abc@def.gh</span>
+        <span className='login-form__error-message__text'>E-mail non valide. <br/> Veuillez respecter ce format : abc@def.gh</span>
+      </div> }
+
+      {/* Possible error message due to invalid email because already used */}
+      {uniqueEmailErrorMessage &&
+      <div className='login-form__error-message'>
+        <i class="fas fa-exclamation-circle"></i>
+        <span className='login-form__error-message__text'>E-mail non valide. <br/> Cet e-mail est déjà utilisé.</span>
       </div> }
 
       {/* Password input */}
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        name="password"
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+      <div id="password-box">
+        <input
+          id='id_password'
+          type="password"
+          placeholder="Mot de passe"
+          name="password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+            checkPassword(e.target.value);
+          }}
+          required
+        />
+        <i className="far fa-eye" id="togglePassword" onClick={showPassword}></i>
+      </div>
+
+      {/* Assistant for entering a valid password */}
+      <div className='login-form__password-assist' hidden>
+        Votre mot de passe doit contenir :
+        <ul>
+          <li id='password-assist__pass-length'>Au moins 8 caractères</li>
+          <li id='password-assist__pass-majuscule'>Au moins une lettre majuscule (A-Z)</li>
+          <li id='password-assist__pass-minuscule'>Au moins une lettre minuscule (a-z)</li>
+          <li id='password-assist__pass-chiffre'>Au moins une chiffre (0-9)</li>
+        </ul>
+      </div>
 
       {/* Possible error message due to invalid password */}
       { passwordErrorMessage &&
-      <div className='password-error-message'>
+      <div className='login-form__error-message'>
         <i class="fas fa-exclamation-circle"></i>
-        <span className='password-error-message__text'>Le mot de passe doit comporter entre 8 et 20 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre et aucun espace ou caractère spécial.</span>
+        <span className='login-form__error-message__text'>
+          Votre mot de passe doit contenir :
+          <ul>
+            <li>Au moins 8 caractères</li>
+            <li>Au moins une lettre majuscule (A-Z)</li>
+            <li>Au moins une lettre minuscule (a-z)</li>
+            <li>Au moins une chiffre (0-9)</li>
+          </ul>
+          Aucun espace ou caractère spécial n'est accepté.
+        </span>
       </div> }
 
       {/* Signup button */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function LoginForm({handleModals}) {
+function LoginForm({handleModals, formSubmit }) {
 
   // Email and password typed in by the user
   const [email, setEmail] = useState("");
@@ -42,8 +42,22 @@ function LoginForm({handleModals}) {
       });
   }
 
+  // Function showing the password the user is typing in
+  function showPassword() {
+    const type = document.querySelector('#id_password').getAttribute('type') === 'password' ? 'text' : 'password';
+    document.querySelector('#id_password').setAttribute('type', type);
+    document.querySelector('#togglePassword').classList.toggle('fa-eye-slash');
+  }
+
   return (
     <form className='login-form' onSubmit={handleLogin}>
+
+      { formSubmit ?
+        <div className='login-form__account-created'>
+        Vous avez créé votre compte avec succès ! <br />
+        Connectez-vous à Groupomania !
+      </div>
+      : null }
 
       {/* Email input */}
       <input
@@ -56,25 +70,29 @@ function LoginForm({handleModals}) {
 
       {/* Possible error message due to invalid email */}
       { emailErrorMessage &&
-      <div className='email-error-message'>
+      <div className='login-form__error-message'>
         <i class="fas fa-exclamation-circle"></i>
-        <span className='email-error-message__text'>E-mail incorrect!</span>
+        <span className='login-form__error-message__text'>E-mail incorrect!</span>
       </div> }
 
       {/* Password input */}
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        name="password"
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+      <div id="password-box">
+        <input
+          id='id_password'
+          type="password"
+          placeholder="Mot de passe"
+          name="password"
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <i className="far fa-eye" id="togglePassword" onClick={showPassword}></i>
+      </div>
 
       {/* Possible error message due to invalid password */}
       { passwordErrorMessage &&
-      <div className='password-error-message'>
+      <div className='login-form__error-message'>
         <i class="fas fa-exclamation-circle"></i>
-        <span className='password-error-message__text'>Mot de passe incorrect!</span>
+        <span className='login-form__error-message__text'>Mot de passe incorrect!</span>
       </div> }
 
       <p className='login-form__edit-pass'>Mot de passe oublié ?</p>

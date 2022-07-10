@@ -5,8 +5,10 @@ import SignupForm from './SignupForm';
 
 function Login() {
 
-  const [loginModal, setLoginModal] = useState(true)
-  const [signUpModal, setSignUpModal] = useState(false)
+  const [loginModal, setLoginModal] = useState(true);
+  const [signUpModal, setSignUpModal] = useState(false);
+
+  const [formSubmit, setFormSubmit] = useState(false);
 
   // Function to switch between login and signup form
   function handleModals(e) {
@@ -20,14 +22,20 @@ function Login() {
     }
   }
 
+  // A function that switches to the login form once the user has created an account
+  function showLogin() {
+    setSignUpModal(false);
+    setLoginModal(true);
+  }
+
   return (
     <section className='login-container'>
 
         {/* Login Form */}
-        { loginModal && <LoginForm handleModals={handleModals} /> }
+        { loginModal && <LoginForm handleModals={handleModals} formSubmit={formSubmit} /> }
 
         {/* Signup Form */}
-        { signUpModal && <SignupForm handleModals={handleModals} /> }
+        { signUpModal && <SignupForm handleModals={handleModals} setFormSubmit={setFormSubmit} showLogin={showLogin} /> }
 
     </section>
   );
