@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Profile() {
+function ProfilePage() {
   return (
     <div>
       Hello from Profile
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default ProfilePage;

@@ -1,0 +1,36 @@
+//==========================================
+//  Custom styles
+//==========================================
+
+body {
+  background: #fff;
+  color: #000;
+  font: 400 16px "Lato", Helvetica, Arial, sans-serif;
+}
+
+
+//==========================================
+//  Container
+//==========================================
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+//==========================================
+//  Links
+//==========================================
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+a:hover,
+a:active {
+  color: $primary-color;
+}

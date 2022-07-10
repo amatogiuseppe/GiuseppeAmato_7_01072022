@@ -1,0 +1,31 @@
+//==========================================
+//  Variables
+//==========================================
+
+// Palette
+$base-color: black;
+$palette: (
+  main-colors: (
+    primaire: #FD2D01,
+    secondaire: #FFD7D7,
+    tertiaire: #4E5166,
+  )
+);
+$main-palette: map-get($palette, main-colors);
+
+// Colors
+$primary-color: map-get($main-palette, primaire); //--> #FD2D01
+$secondary-color: map-get($main-palette, secondaire); //--> #FFD7D7
+$tertiary-color: map-get($main-palette, tertiaire); //--> #4E5166
+
+// Breakpoints
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+$small: map-get($breakpoints, sm);
+$medium: map-get($breakpoints, md);
+$large: map-get($breakpoints, lg);
+$extra-large: map-get($breakpoints, xl);
