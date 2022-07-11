@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
-function LoginForm({handleModals, formSubmit }) {
+function LoginForm({ handleModals, formSubmit }) {
 
   // Email and password typed in by the user
   const [email, setEmail] = useState("");
@@ -15,28 +15,27 @@ function LoginForm({handleModals, formSubmit }) {
   function handleLogin(e) {
     e.preventDefault();
     axios({
-      method: 'POST',
+      method: "POST",
       url: `http://localhost:${process.env.REACT_APP_API_PORT}/api/auth/login`,
       data: {
         email: email,
-        password: password
-      }
+        password: password,
+      },
     })
-      .then( res => {
-        console.log(res.data);
+      .then((res) => {
         if (emailErrorMessage || passwordErrorMessage) {
           setEmailErrorMessage(false);
           setPasswordErrorMessage(false);
         }
-        localStorage.setItem('userToken', JSON.stringify(res.data.token));
+        localStorage.setItem("userToken", JSON.stringify(res.data.token));
         window.location = "/";
       })
-      .catch( err => {
+      .catch((err) => {
         console.log(err);
-        if (err.response.data.error === 'User not found') {
+        if (err.response.data.error === "User not found") {
           setEmailErrorMessage(true);
         }
-        if (err.response.data.error === 'Invalid password!') {
+        if (err.response.data.error === "Invalid password!") {
           setPasswordErrorMessage(true);
         }
       });
@@ -44,20 +43,22 @@ function LoginForm({handleModals, formSubmit }) {
 
   // Function showing the password the user is typing in
   function showPassword() {
-    const type = document.querySelector('#id_password').getAttribute('type') === 'password' ? 'text' : 'password';
-    document.querySelector('#id_password').setAttribute('type', type);
-    document.querySelector('#togglePassword').classList.toggle('fa-eye-slash');
+    const type =
+      document.querySelector("#id_password").getAttribute("type") === "password"
+        ? "text"
+        : "password";
+    document.querySelector("#id_password").setAttribute("type", type);
+    document.querySelector("#togglePassword").classList.toggle("fa-eye-slash");
   }
 
   return (
-    <form className='login-form' onSubmit={handleLogin}>
-
-      { formSubmit ?
-        <div className='login-form__account-created'>
-        Vous avez créé votre compte avec succès ! <br />
-        Connectez-vous à Groupomania !
-      </div>
-      : null }
+    <form className="login-form" onSubmit={handleLogin}>
+      {formSubmit ? (
+        <div className="login-form__account-created">
+          Vous avez créé votre compte avec succès ! <br />
+          Connectez-vous à Groupomania !
+        </div>
+      ) : null}
 
       {/* Email input */}
       <input
@@ -69,36 +70,48 @@ function LoginForm({handleModals, formSubmit }) {
       />
 
       {/* Possible error message due to invalid email */}
-      { emailErrorMessage &&
-      <div className='login-form__error-message'>
-        <i class="fas fa-exclamation-circle"></i>
-        <span className='login-form__error-message__text'>E-mail incorrect!</span>
-      </div> }
+      {emailErrorMessage && (
+        <div className="login-form__error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span className="login-form__error-message__text">
+            E-mail incorrect!
+          </span>
+        </div>
+      )}
 
       {/* Password input */}
       <div id="password-box">
         <input
-          id='id_password'
+          id="id_password"
           type="password"
           placeholder="Mot de passe"
           name="password"
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <i className="far fa-eye" id="togglePassword" onClick={showPassword}></i>
+        <i
+          className="far fa-eye"
+          id="togglePassword"
+          onClick={showPassword}
+        ></i>
       </div>
 
       {/* Possible error message due to invalid password */}
-      { passwordErrorMessage &&
-      <div className='login-form__error-message'>
-        <i class="fas fa-exclamation-circle"></i>
-        <span className='login-form__error-message__text'>Mot de passe incorrect!</span>
-      </div> }
+      {passwordErrorMessage && (
+        <div className="login-form__error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span className="login-form__error-message__text">
+            Mot de passe incorrect!
+          </span>
+        </div>
+      )}
 
-      <p className='login-form__edit-pass'>Mot de passe oublié ?</p>
+      <p className="login-form__edit-pass">Mot de passe oublié ?</p>
 
       {/* Login button */}
-      <button className="login-form__btn" type="submit">Se connecter</button>
+      <button className="login-form__btn" type="submit">
+        Se connecter
+      </button>
 
       {/* Link to sign-up */}
       <p className="login-form__question">
@@ -107,9 +120,8 @@ function LoginForm({handleModals, formSubmit }) {
           Inscription
         </span>
       </p>
-
     </form>
   );
-};
+}
 
 export default LoginForm;

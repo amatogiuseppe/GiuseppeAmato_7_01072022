@@ -8,7 +8,6 @@ body {
   font: 400 16px "Lato", Helvetica, Arial, sans-serif;
 }
 
-
 //==========================================
 //  Container
 //==========================================
@@ -17,10 +16,9 @@ body {
 *:before,
 *:after {
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 
 //==========================================
 //  Links

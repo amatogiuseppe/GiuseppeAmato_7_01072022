@@ -6,10 +6,10 @@
 $base-color: black;
 $palette: (
   main-colors: (
-    primaire: #FD2D01,
-    secondaire: #FFD7D7,
-    tertiaire: #4E5166,
-  )
+    primaire: #fd2d01,
+    secondaire: #ffd7d7,
+    tertiaire: #4e5166,
+  ),
 );
 $main-palette: map-get($palette, main-colors);
 
@@ -23,7 +23,7 @@ $breakpoints: (
   sm: 576px,
   md: 768px,
   lg: 992px,
-  xl: 1200px
+  xl: 1200px,
 );
 $small: map-get($breakpoints, sm);
 $medium: map-get($breakpoints, md);

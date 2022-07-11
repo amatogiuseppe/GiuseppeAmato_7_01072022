@@ -5,18 +5,18 @@
 // Required modules
 const express = require('express');
 const userCtrl = require('../controllers/user.controller');
+const authMddlw = require('../middleware/authorization');
 const checkInputData = require('../middleware/check-input-data');
-const authoriseReq = require('../middleware/authorise-req');
 
 // User router
 const router = express.Router();
 
 // User routes
-router.get('/', authoriseReq, userCtrl.getAllUsers);
-router.get("/:userId", authoriseReq, userCtrl.getOneUser);
-router.put("/:userId", authoriseReq, checkInputData, userCtrl.editUserInfo);
-router.put("/:userId/auth", authoriseReq, checkInputData, userCtrl.editUserPassword);
-router.delete("/:userId", authoriseReq, userCtrl.deleteUser);
+router.get('/', authMddlw.authorizeRequest, userCtrl.getAllUsers);
+router.get("/:userId", authMddlw.authorizeRequest, userCtrl.getOneUser);
+router.put("/:userId", authMddlw.authorizeRequest, checkInputData, userCtrl.editUserInfo);
+router.put("/:userId/auth", authMddlw.authorizeRequest, checkInputData, userCtrl.editUserPassword);
+router.delete("/:userId", authMddlw.authorizeRequest, userCtrl.deleteUser);
 
 // Exporting the user router
 module.exports = router;

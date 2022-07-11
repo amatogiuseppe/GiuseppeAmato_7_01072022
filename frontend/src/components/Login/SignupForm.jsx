@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
-function SignupForm({handleModals, setFormSubmit, showLogin}) {
+function SignupForm({ handleModals, setFormSubmit, showLogin }) {
 
   // Name, surname, email and password typed in by the user
   const [name, setName] = useState("");
@@ -20,16 +20,16 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
   function handleSignup(e) {
     e.preventDefault();
     axios({
-      method: 'POST',
+      method: "POST",
       url: `http://localhost:${process.env.REACT_APP_API_PORT}/api/auth/signup`,
       data: {
         name: name,
         surname: surname,
         email: email,
-        password: password
-      }
+        password: password,
+      },
     })
-      .then( res => {
+      .then((res) => {
         console.log(res.data);
         setNameErrorMessage(false);
         setSurnameErrorMessage(false);
@@ -38,7 +38,7 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
         setPasswordErrorMessage(false);
         setFormSubmit(true);
       })
-      .catch( err => {
+      .catch((err) => {
         console.log(err);
         setNameErrorMessage(false);
         setSurnameErrorMessage(false);
@@ -46,21 +46,21 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
         setUniqueEmailErrorMessage(false);
         setPasswordErrorMessage(false);
         switch (err.response.data.error) {
-          case 'Invalid name. Please respect this format: Jon':
+          case "Invalid name. Please respect this format: Jon":
             setNameErrorMessage(true);
-          break;
-          case 'Invalid surname. Please respect this format: Snow':
+            break;
+          case "Invalid surname. Please respect this format: Snow":
             setSurnameErrorMessage(true);
-          break;
-          case 'Invalid email. Please respect this format: abc@def.gh':
+            break;
+          case "Invalid email. Please respect this format: abc@def.gh":
             setEmailErrorMessage(true);
-          break;
-          case 'The password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and no spaces or special characters':
+            break;
+          case "The password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and no spaces or special characters":
             setPasswordErrorMessage(true);
-          break;
-          case 'This email is already in use':
+            break;
+          case "This email is already in use":
             setUniqueEmailErrorMessage(true);
-          break;
+            break;
           default:
             console.log(err);
         }
@@ -69,44 +69,65 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
 
   // Function to assist the user in entering a valid password
   function checkPassword(password) {
-    document.querySelector('.login-form__password-assist').removeAttribute("hidden");
+    document
+      .querySelector(".login-form__password-assist")
+      .removeAttribute("hidden");
     if (password.length >= 8) {
-      document.getElementById('password-assist__pass-length').classList.add("active-list-item");
+      document
+        .getElementById("password-assist__pass-length")
+        .classList.add("active-list-item");
     } else {
-      document.getElementById('password-assist__pass-length').classList.remove("active-list-item");
+      document
+        .getElementById("password-assist__pass-length")
+        .classList.remove("active-list-item");
     }
     if (password.match(/[A-Z]/)) {
-      document.getElementById('password-assist__pass-majuscule').classList.add("active-list-item");
+      document
+        .getElementById("password-assist__pass-majuscule")
+        .classList.add("active-list-item");
     } else {
-      document.getElementById('password-assist__pass-majuscule').classList.remove("active-list-item");
+      document
+        .getElementById("password-assist__pass-majuscule")
+        .classList.remove("active-list-item");
     }
     if (password.match(/[a-z]/)) {
-      document.getElementById('password-assist__pass-minuscule').classList.add("active-list-item");
+      document
+        .getElementById("password-assist__pass-minuscule")
+        .classList.add("active-list-item");
     } else {
-      document.getElementById('password-assist__pass-minuscule').classList.remove("active-list-item");
+      document
+        .getElementById("password-assist__pass-minuscule")
+        .classList.remove("active-list-item");
     }
     if (password.match(/[0-9]/)) {
-      document.getElementById('password-assist__pass-chiffre').classList.add("active-list-item");
+      document
+        .getElementById("password-assist__pass-chiffre")
+        .classList.add("active-list-item");
     } else {
-      document.getElementById('password-assist__pass-chiffre').classList.remove("active-list-item");
+      document
+        .getElementById("password-assist__pass-chiffre")
+        .classList.remove("active-list-item");
     }
-  };
+  }
 
   // Function showing the password the user is typing in
   function showPassword() {
-    const type = document.querySelector('#id_password').getAttribute('type') === 'password' ? 'text' : 'password';
-    document.querySelector('#id_password').setAttribute('type', type);
-    document.querySelector('#togglePassword').classList.toggle('fa-eye-slash');
+    const type =
+      document.querySelector("#id_password").getAttribute("type") === "password"
+        ? "text"
+        : "password";
+    document.querySelector("#id_password").setAttribute("type", type);
+    document.querySelector("#togglePassword").classList.toggle("fa-eye-slash");
   }
 
   return (
     <form
-    className='login-form'
-    onSubmit={(e) => {
-      handleSignup(e);
-      showLogin();
-    }}>
-
+      className="login-form"
+      onSubmit={(e) => {
+        handleSignup(e);
+        showLogin();
+      }}
+    >
       {/* Name input */}
       <input
         type="text"
@@ -117,11 +138,14 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
       />
 
       {/* Possible error message due to invalid name */}
-      {nameErrorMessage &&
-      <div className='login-form__error-message'>
-        <i class="fas fa-exclamation-circle"></i>
-        <span className='login-form__error-message__text'>Nom non valide. <br/> Veuillez respecter ce format : Jon</span>
-      </div> }
+      {nameErrorMessage && (
+        <div className="login-form__error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span className="login-form__error-message__text">
+            Nom non valide. <br /> Veuillez respecter ce format : Jon
+          </span>
+        </div>
+      )}
 
       {/* Surname input */}
       <input
@@ -133,11 +157,14 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
       />
 
       {/* Possible error message due to invalid surname */}
-      {surnameErrorMessage &&
-      <div className='login-form__error-message'>
-        <i class="fas fa-exclamation-circle"></i>
-        <span className='login-form__error-message__text'>Nom de famille invalide. <br/> Veuillez respecter ce format : Snow</span>
-      </div> }
+      {surnameErrorMessage && (
+        <div className="login-form__error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span className="login-form__error-message__text">
+            Nom de famille invalide. <br /> Veuillez respecter ce format : Snow
+          </span>
+        </div>
+      )}
 
       {/* Email input */}
       <input
@@ -149,23 +176,29 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
       />
 
       {/* Possible error message due to invalid email format */}
-      {emailErrorMessage &&
-      <div className='login-form__error-message'>
-        <i class="fas fa-exclamation-circle"></i>
-        <span className='login-form__error-message__text'>E-mail non valide. <br/> Veuillez respecter ce format : abc@def.gh</span>
-      </div> }
+      {emailErrorMessage && (
+        <div className="login-form__error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span className="login-form__error-message__text">
+            E-mail non valide. <br /> Veuillez respecter ce format : abc@def.gh
+          </span>
+        </div>
+      )}
 
       {/* Possible error message due to invalid email because already used */}
-      {uniqueEmailErrorMessage &&
-      <div className='login-form__error-message'>
-        <i class="fas fa-exclamation-circle"></i>
-        <span className='login-form__error-message__text'>E-mail non valide. <br/> Cet e-mail est déjà utilisé.</span>
-      </div> }
+      {uniqueEmailErrorMessage && (
+        <div className="login-form__error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span className="login-form__error-message__text">
+            E-mail non valide. <br /> Cet e-mail est déjà utilisé.
+          </span>
+        </div>
+      )}
 
       {/* Password input */}
       <div id="password-box">
         <input
-          id='id_password'
+          id="id_password"
           type="password"
           placeholder="Mot de passe"
           name="password"
@@ -175,38 +208,49 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
           }}
           required
         />
-        <i className="far fa-eye" id="togglePassword" onClick={showPassword}></i>
+        <i
+          className="far fa-eye"
+          id="togglePassword"
+          onClick={showPassword}
+        ></i>
       </div>
 
       {/* Assistant for entering a valid password */}
-      <div className='login-form__password-assist' hidden>
+      <div className="login-form__password-assist" hidden>
         Votre mot de passe doit contenir :
         <ul>
-          <li id='password-assist__pass-length'>Au moins 8 caractères</li>
-          <li id='password-assist__pass-majuscule'>Au moins une lettre majuscule (A-Z)</li>
-          <li id='password-assist__pass-minuscule'>Au moins une lettre minuscule (a-z)</li>
-          <li id='password-assist__pass-chiffre'>Au moins une chiffre (0-9)</li>
+          <li id="password-assist__pass-length">Au moins 8 caractères</li>
+          <li id="password-assist__pass-majuscule">
+            Au moins une lettre majuscule (A-Z)
+          </li>
+          <li id="password-assist__pass-minuscule">
+            Au moins une lettre minuscule (a-z)
+          </li>
+          <li id="password-assist__pass-chiffre">Au moins une chiffre (0-9)</li>
         </ul>
       </div>
 
       {/* Possible error message due to invalid password */}
-      { passwordErrorMessage &&
-      <div className='login-form__error-message'>
-        <i class="fas fa-exclamation-circle"></i>
-        <span className='login-form__error-message__text'>
-          Votre mot de passe doit contenir :
-          <ul>
-            <li>Au moins 8 caractères</li>
-            <li>Au moins une lettre majuscule (A-Z)</li>
-            <li>Au moins une lettre minuscule (a-z)</li>
-            <li>Au moins une chiffre (0-9)</li>
-          </ul>
-          Aucun espace ou caractère spécial n'est accepté.
-        </span>
-      </div> }
+      {passwordErrorMessage && (
+        <div className="login-form__error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <span className="login-form__error-message__text">
+            Votre mot de passe doit contenir :
+            <ul>
+              <li>Au moins 8 caractères</li>
+              <li>Au moins une lettre majuscule (A-Z)</li>
+              <li>Au moins une lettre minuscule (a-z)</li>
+              <li>Au moins une chiffre (0-9)</li>
+            </ul>
+            Aucun espace ou caractère spécial n'est accepté.
+          </span>
+        </div>
+      )}
 
       {/* Signup button */}
-      <button className="login-form__btn" type="submit">S'inscrire</button>
+      <button className="login-form__btn" type="submit">
+        S'inscrire
+      </button>
 
       {/* Link to log-in */}
       <p className="login-form__question">
@@ -215,10 +259,8 @@ function SignupForm({handleModals, setFormSubmit, showLogin}) {
           Connexion
         </span>
       </p>
-
     </form>
-
   );
-};
+}
 
 export default SignupForm;

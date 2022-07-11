@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
-
+import React, { useState } from "react";
+import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
 
 function Login() {
 
+  // The user can switch between login and signup forms
   const [loginModal, setLoginModal] = useState(true);
   const [signUpModal, setSignUpModal] = useState(false);
 
+  // A user who creates an account is immediately directed to the login form
   const [formSubmit, setFormSubmit] = useState(false);
 
   // Function to switch between login and signup form
@@ -29,16 +30,22 @@ function Login() {
   }
 
   return (
-    <section className='login-container'>
+    <section className="login-container">
+      {/* Login Form */}
+      {loginModal && (
+        <LoginForm handleModals={handleModals} formSubmit={formSubmit} />
+      )}
 
-        {/* Login Form */}
-        { loginModal && <LoginForm handleModals={handleModals} formSubmit={formSubmit} /> }
-
-        {/* Signup Form */}
-        { signUpModal && <SignupForm handleModals={handleModals} setFormSubmit={setFormSubmit} showLogin={showLogin} /> }
-
+      {/* Signup Form */}
+      {signUpModal && (
+        <SignupForm
+          handleModals={handleModals}
+          setFormSubmit={setFormSubmit}
+          showLogin={showLogin}
+        />
+      )}
     </section>
   );
-};
+}
 
 export default Login;

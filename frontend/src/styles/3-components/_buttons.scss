@@ -37,8 +37,7 @@
   &:active {
     &::after {
       opacity: 1;
-      box-shadow:  0px 0px 10px rgba(253, 45, 1, .5);
+      box-shadow: 0px 0px 10px rgba(253, 45, 1, 0.5);
     }
   }
 }
-
