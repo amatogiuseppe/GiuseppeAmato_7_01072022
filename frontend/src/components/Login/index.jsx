@@ -8,7 +8,7 @@ function Login() {
   const [loginModal, setLoginModal] = useState(true);
   const [signUpModal, setSignUpModal] = useState(false);
 
-  // A user who creates an account is immediately directed to the login form
+  // The status of successful signup by the user is stored in formSubmit
   const [formSubmit, setFormSubmit] = useState(false);
 
   // Function to switch between login and signup form
@@ -23,12 +23,6 @@ function Login() {
     }
   }
 
-  // A function that switches to the login form once the user has created an account
-  function showLogin() {
-    setSignUpModal(false);
-    setLoginModal(true);
-  }
-
   return (
     <section className="login-container">
       {/* Login Form */}
@@ -41,7 +35,8 @@ function Login() {
         <SignupForm
           handleModals={handleModals}
           setFormSubmit={setFormSubmit}
-          showLogin={showLogin}
+          setSignUpModal={setSignUpModal}
+          setLoginModal={setLoginModal}
         />
       )}
     </section>

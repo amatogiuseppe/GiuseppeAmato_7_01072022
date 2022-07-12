@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { UserLoggedInContext } from "../utils/context/UserLoggedInContext";
+import Navbar from "../components/Navbar";
 
 function ProfilePage() {
 
@@ -18,8 +19,18 @@ function ProfilePage() {
   // A user who is logged in can access the profile page
   if (isLoggedIn === true) {
     return (
-      <div>
-        <b>Vous êtes connecté sur la page de profil !</b>
+      <div className="home-page">
+        {/* Header */}
+        <header className="home-page__header">
+          <Navbar />
+        </header>
+        {/* Main */}
+        <main className="home-page__main" >
+          <br />
+          <br />
+          <br />
+          <b>Vous êtes connecté sur la page de profil !</b>
+        </main>
       </div>
     );
   }

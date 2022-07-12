@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { UserLoggedInContext } from "../utils/context/UserLoggedInContext";
+import Navbar from "../components/Navbar";
 
 function HomePage() {
 
@@ -18,8 +19,18 @@ function HomePage() {
   // A user who is logged in can access the homepage
   if (isLoggedIn === true) {
     return (
-      <div>
-        <b>Vous êtes connecté à la page d'accueil !</b>
+      <div className="home-page">
+        {/* Header */}
+        <header className="home-page__header">
+          <Navbar />
+        </header>
+        {/* Main */}
+        <main className="home-page__main" >
+          <br />
+          <br />
+          <br />
+          <b>Vous êtes connecté à la page d'accueil !</b>
+        </main>
       </div>
     );
   }

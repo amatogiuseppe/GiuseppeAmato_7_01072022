@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function SignupForm({ handleModals, setFormSubmit, showLogin }) {
+function SignupForm({
+  handleModals,
+  setFormSubmit,
+  setSignUpModal,
+  setLoginModal,
+}) {
 
   // Name, surname, email and password typed in by the user
   const [name, setName] = useState("");
@@ -16,6 +21,15 @@ function SignupForm({ handleModals, setFormSubmit, showLogin }) {
   const [uniqueEmailErrorMessage, setUniqueEmailErrorMessage] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
 
+  // Function to remove error messages
+  function removeErrorMessages() {
+    setNameErrorMessage(false);
+    setSurnameErrorMessage(false);
+    setEmailErrorMessage(false);
+    setUniqueEmailErrorMessage(false);
+    setPasswordErrorMessage(false);
+  }
+
   // Function that is called when the user tries to register with the new credentials
   function handleSignup(e) {
     e.preventDefault();
@@ -29,22 +43,15 @@ function SignupForm({ handleModals, setFormSubmit, showLogin }) {
         password: password,
       },
     })
-      .then((res) => {
-        console.log(res.data);
-        setNameErrorMessage(false);
-        setSurnameErrorMessage(false);
-        setEmailErrorMessage(false);
-        setUniqueEmailErrorMessage(false);
-        setPasswordErrorMessage(false);
+      .then(() => {
+        removeErrorMessages();
         setFormSubmit(true);
+        setSignUpModal(false);
+        setLoginModal(true);
       })
       .catch((err) => {
         console.log(err);
-        setNameErrorMessage(false);
-        setSurnameErrorMessage(false);
-        setEmailErrorMessage(false);
-        setUniqueEmailErrorMessage(false);
-        setPasswordErrorMessage(false);
+        removeErrorMessages();
         switch (err.response.data.error) {
           case "Invalid name. Please respect this format: Jon":
             setNameErrorMessage(true);
@@ -121,13 +128,8 @@ function SignupForm({ handleModals, setFormSubmit, showLogin }) {
   }
 
   return (
-    <form
-      className="login-form"
-      onSubmit={(e) => {
-        handleSignup(e);
-        showLogin();
-      }}
-    >
+    <form className="login-form" onSubmit={handleSignup}>
+
       {/* Name input */}
       <input
         type="text"

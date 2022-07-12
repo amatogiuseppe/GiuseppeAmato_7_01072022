@@ -9,9 +9,9 @@ import ErrorPage from "./pages/ErrorPage";
 
 function App() {
 
-  // Login status and user id
+  // Login status and user
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
 
   // Function that is called to check whether the user is logged in or not.
   useEffect(() => {
@@ -24,17 +24,17 @@ function App() {
     })
       .then((res) => {
         setIsLoggedIn(true);
-        setUserId(res.data._id);
+        setUser(res.data);
       })
       .catch((err) => {
         setIsLoggedIn(false);
-        setUserId(null);
+        setUser(null);
         console.log(err);
       });
-  }, [userId]);
+  }, [user]);
 
   return (
-    <UserLoggedInContext.Provider value={{ isLoggedIn, userId }}>
+    <UserLoggedInContext.Provider value={{ isLoggedIn, user }}>
       <Router>
         <Routes>
           <Route exact path="/" element={<HomePage />} />
