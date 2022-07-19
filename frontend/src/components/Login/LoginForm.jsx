@@ -66,6 +66,7 @@ function LoginForm({ handleModals, formSubmit }) {
         placeholder="Adress e-mail"
         name="email"
         onChange={(e) => setEmail(e.target.value)}
+        autoFocus
         required
       />
 

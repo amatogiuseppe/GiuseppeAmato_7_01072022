@@ -136,6 +136,7 @@ function SignupForm({
         placeholder="Prénom"
         name="prenom"
         onChange={(e) => setName(e.target.value)}
+        autoFocus
         required
       />
 

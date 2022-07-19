@@ -11,7 +11,7 @@ function App() {
 
   // Login status and user
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   // Function that is called to check whether the user is logged in or not.
   useEffect(() => {
@@ -24,17 +24,17 @@ function App() {
     })
       .then((res) => {
         setIsLoggedIn(true);
-        setUser(res.data);
+        setUserData(res.data);
       })
       .catch((err) => {
         setIsLoggedIn(false);
-        setUser(null);
+        setUserData(null);
         console.log(err);
       });
-  }, [user]);
+  }, [isLoggedIn]);
 
   return (
-    <UserLoggedInContext.Provider value={{ isLoggedIn, user }}>
+    <UserLoggedInContext.Provider value={{ isLoggedIn, userData }}>
       <Router>
         <Routes>
           <Route exact path="/" element={<HomePage />} />

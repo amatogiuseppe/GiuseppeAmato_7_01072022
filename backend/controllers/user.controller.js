@@ -39,18 +39,37 @@ exports.editUserInfo = (req, res, next) => {
       if ( req.auth.userId !== req.params.userId ) {
         return res.status(401).json({ error: 'Request not allowed!' });
       }
-      // Case 3 - If the user tries to change the password here he is blocked
+      // Case 3 - If the user tries to change the email here he is blocked
+      if (req.body.email) {
+        return res.status(401).json({ error: 'It is not allowed to change the email!' });
+      }
+      // Case 4 - If the user tries to change the password here he is blocked
       if (req.body.password) {
         return res.status(401).json({ error: 'It is not allowed to change the password here!' });
       }
-      // Case 4.1: Editing the user: the user wants to change only the user information, but not the image
+      // Case 5.1: Editing the user: the user wants to change only the user information, but not the image
       let userObject = { ...req.body };
-      // Case 4.2: Editing the user: the user may upload a new image along with the user information
+      // Case 5.2: Editing the user: the user may upload a new image along with the user information
       if (req.file) {
         const filename = user.imageUrl.split('/images/')[1];
-        userObject = {
-          ...req.body,
-          imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        // Case 5.2.1: If the user enters a file with an invalid format
+        if (
+          req.file.mimetype != "image/jpg" &&
+          req.file.mimetype != "image/png" &&
+          req.file.mimetype != "image/jpeg"
+        ) {
+          userObject = {
+            ...req.body,
+            imageUrl: "../images/"
+          }
+          fs.unlink(`images/${req.file.filename}`, () => { userObject });
+        }
+        // Case 5.2.2: If the user enters a file with an valid format
+        else {
+          userObject = {
+            ...req.body,
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+          }
         }
         fs.unlink(`images/${filename}`, () => { userObject })
       }
@@ -81,7 +100,7 @@ exports.editUserPassword = (req, res, next) => {
       if (!req.body.oldPassword) {
         return res.status(401).json({ error: 'You must first enter the old password!' });
       }
-      if (!req.body.newPassword) {
+      if (!req.body.password) {
         return res.status(401).json({ error: 'You must enter the new password!' });
       }
       // Checking the old password
@@ -90,11 +109,11 @@ exports.editUserPassword = (req, res, next) => {
           if (!valid) {
             return res.status(401).json({ error: 'Invalid password!' });
           }
-          if (req.body.newPassword == req.body.oldPassword) {
+          if (req.body.password == req.body.oldPassword) {
             return res.status(401).json({ error: 'The new password must be different from the old one!' });
           }
-          // Changing passaword
-          bcrypt.hash(req.body.newPassword, 10)
+          // Changing password
+          bcrypt.hash(req.body.password, 10)
             .then(hash => {
               let userObject = { password: hash };
               UserModel.updateOne({ _id: req.params.userId }, { ...userObject, _id: req.params.userId })

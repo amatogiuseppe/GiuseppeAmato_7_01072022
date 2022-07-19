@@ -7,7 +7,7 @@ import defaultProfile from "../../assets/default-profile.png";
 function Navbar() {
 
   // User data
-  const { user } = useContext(UserLoggedInContext);
+  const { userData } = useContext(UserLoggedInContext);
 
   // The home icon is activated when the user is on the homepage
   useEffect(() => {
@@ -61,7 +61,7 @@ function Navbar() {
         <div className="navbar__menu__photo" onClick={showMenu}>
           <img
             className="navbar__menu__photo-img"
-            src={defaultProfile}
+            src={userData.imageUrl === "../images/" ? defaultProfile : userData.imageUrl}
             alt="Profile"
           />
         </div>
@@ -73,10 +73,10 @@ function Navbar() {
           <div className="menu-account-owner">
             <img
               className="navbar__menu__photo-img"
-              src={defaultProfile}
+              src={userData.imageUrl === "../images/" ? defaultProfile : userData.imageUrl}
               alt="Profile"
             />
-            <span className="menu-account-owner__name">{user.name} {user.surname}</span>
+            <span className="menu-account-owner__name">{userData.name} {userData.surname}</span>
           </div>
 
           {/* Links to profile page and to log off */}

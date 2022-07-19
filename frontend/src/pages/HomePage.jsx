@@ -22,7 +22,10 @@ function HomePage() {
       <div className="home-page">
         {/* Header */}
         <header className="home-page__header">
-          <Navbar />
+          {/* Navbar */}
+          <nav className="navbar-container">
+            <Navbar />
+          </nav>
         </header>
         {/* Main */}
         <main className="home-page__main" >

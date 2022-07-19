@@ -34,3 +34,11 @@
   align-items: $align;
   flex-direction: $direction;
 }
+
+// Error Messages
+@mixin error-messages-style {
+  color: red;
+  &__text {
+      margin-left: 5px;
+  }
+}

@@ -97,10 +97,7 @@
   }
   &__error-message {
     margin-top: 10px;
-    color: red;
-    &__text {
-      margin-left: 5px;
-    }
+    @include error-messages-style;
   }
   &__password-assist {
     width: 100%;
