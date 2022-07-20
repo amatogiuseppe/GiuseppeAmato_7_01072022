@@ -58,13 +58,13 @@ function Navbar() {
       <div className="navbar__menu">
 
         {/* When the user clicks on the thumbnail, a drop-down menu appears */}
-        <div className="navbar__menu__photo" onClick={showMenu}>
-          <img
-            className="navbar__menu__photo-img"
-            src={userData.imageUrl === "../images/" ? defaultProfile : userData.imageUrl}
-            alt="Profile"
-          />
-        </div>
+        <img
+          className="navbar__menu__photo-img"
+          src={userData.imageUrl === "../images/" ? defaultProfile : userData.imageUrl}
+          alt="Profile"
+          onClick={showMenu}
+        />
+
 
         {/* Drop-down menu */}
         <div className="navbar__menu__full-menu" hidden>

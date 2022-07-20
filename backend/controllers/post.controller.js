@@ -23,22 +23,35 @@ exports.createPost = (req, res, next) => {
   if ( req.body.postUserId && req.auth.userId !== req.body.postUserId ) {
     return res.status(401).json({ error: 'Request not allowed!' });
   }
-  const postObject = {
+  let postObject = {
     postUserId: req.auth.userId,
-    postContent: req.body.postContent,
-    imageUrl: req.body.imageUrl,
-    likers: [],
-    comments: []
+    postContent: req.body.postContent
   };
-  // location of the attached file (if one exists)
-  const attachmentURL = req.file
-    ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    : req.body.imageUrl;
+  if (req.file) {
+    // Case 1: If the user enters a file with an invalid format
+    if (
+      req.file.mimetype != "image/jpg" &&
+      req.file.mimetype != "image/png" &&
+      req.file.mimetype != "image/jpeg"
+    ) {
+      postObject = {
+        postUserId: req.auth.userId,
+        postContent: req.body.postContent,
+        imageUrl: "../images/"
+      }
+      fs.unlink(`images/${req.file.filename}`, () => { postObject });
+    }
+    // Case 2: If the user enters a file with an valid format
+    else {
+      postObject = {
+        postUserId: req.auth.userId,
+        postContent: req.body.postContent,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      }
+    }
+  }
   // creating the new post
-  const post = new PostModel({
-    ...postObject,
-    imageUrl: attachmentURL
-  });
+  const post = new PostModel({ ...postObject });
   // saving the new post in the database
   post.save()
     .then(() => res.status(201).json({ message: 'The post was successfully created!'}))

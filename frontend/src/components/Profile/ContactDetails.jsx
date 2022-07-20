@@ -76,7 +76,7 @@ function ContactDetails({ userData }) {
       },
       data: formData,
     })
-      .then((res) => {
+      .then(() => {
         removeErrorMessages();
         document.location.reload();
       })
