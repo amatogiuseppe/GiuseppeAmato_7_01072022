@@ -1,13 +1,13 @@
 import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserLoggedInContext } from "../../utils/context/UserLoggedInContext";
+import { AppContext } from "../../utils/context/AppContext";
 import logo from "../../assets/logo2.png";
 import defaultProfile from "../../assets/default-profile.png";
 
 function Navbar() {
 
   // User data
-  const { userData } = useContext(UserLoggedInContext);
+  const { userData } = useContext(AppContext);
 
   // The home icon is activated when the user is on the homepage
   useEffect(() => {

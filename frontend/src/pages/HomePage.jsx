@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { UserLoggedInContext } from "../utils/context/UserLoggedInContext";
-import axios from 'axios';
+import { AppContext } from "../utils/context/AppContext";
 import Navbar from "../components/Navbar";
 import NewPostForm from "../components/Home/NewPostForm";
 import PostCard from "../components/Home/PostCard";
@@ -9,27 +8,7 @@ import PostCard from "../components/Home/PostCard";
 function HomePage() {
 
   // Login status
-  const { isLoggedIn, userData } = useContext(UserLoggedInContext);
-
-  // Posts fetched from the API
-  const [posts, setPosts] = useState([]);
-
-  // Function to request posts from API
-  useEffect(()=>{
-    axios({
-      method: "GET",
-      url: `http://localhost:${process.env.REACT_APP_API_PORT}/api/posts`,
-      headers: {
-        Authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("userToken")
-        )}`,
-      },
-    })
-      .then((res) => {
-        setPosts(res.data);
-      })
-      .catch(err => console.log(err));
-  }, []);
+  const { isLoggedIn, posts } = useContext(AppContext);
 
   // Function to set the format of the entry date
   function setDateFormat(date) {
@@ -76,7 +55,7 @@ function HomePage() {
 
           {/* New Post Form */}
           <section className="new-post-form">
-            <NewPostForm userData={userData} setDateFormat={setDateFormat}/>
+            <NewPostForm setDateFormat={setDateFormat}/>
           </section>
 
           {/* News feed */}

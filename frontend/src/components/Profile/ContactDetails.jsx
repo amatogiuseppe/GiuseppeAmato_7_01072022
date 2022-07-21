@@ -10,14 +10,13 @@ function ContactDetails({ userData }) {
   const [imageSizeErrorMessage, setImageSizeErrorMessage] = useState(false);
   const [imageFormatErrorMessage, setImageFormatErrorMessage] = useState(false);
 
-  const imagePreview = document.querySelector("#image-preview");
   let file;
 
   // Function called when the user clicks on the "Changer" button:
   // the function is used to manage the preview of the image uploaded by the user
   function handleProfileImage(e) {
     file = e.target.files[0];
-    imagePreview.src = URL.createObjectURL(e.target.files[0]);
+    document.querySelector("#image-preview").src = URL.createObjectURL(e.target.files[0]);
     if (file.size > 5000000) {
       setImageSizeErrorMessage(true);
     } else {
@@ -40,7 +39,7 @@ function ContactDetails({ userData }) {
     e.preventDefault();
     document.querySelector("#file-input").value = null;
     file = null;
-    imagePreview.src =
+    document.querySelector("#image-preview").src =
       userData.imageUrl === "../images/" ? defaultProfile : userData.imageUrl;
     setImageSizeErrorMessage(false);
     setImageFormatErrorMessage(false);

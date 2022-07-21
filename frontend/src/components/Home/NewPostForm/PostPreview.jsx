@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { UserLoggedInContext } from "../../../utils/context/UserLoggedInContext";
+import { AppContext } from "../../../utils/context/AppContext";
 import defaultProfile from "../../../assets/default-profile.png";
 
 function PostPreview({
@@ -12,7 +12,7 @@ function PostPreview({
 }) {
 
   // User Data
-  const { userData } = useContext(UserLoggedInContext);
+  const { userData } = useContext(AppContext);
 
   return (
     <div className="new-post-form__post-preview">

@@ -11,6 +11,9 @@
   height: 100%;
   overflow: scroll;
   background: #f0f2f5;
+  &__header {
+    width: 100%;
+  }
   &__main {
     @include flexbox($direction: column);
   }

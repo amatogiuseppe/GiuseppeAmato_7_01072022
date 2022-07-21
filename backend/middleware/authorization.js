@@ -34,7 +34,7 @@ exports.checkUser = (req, res, next) => {
   try {
     // Case where no token is present
     if (!req.body.token) {
-      return res.status(404).json({ message: 'No token!' });
+      return res.status(200).json(false);
     }
     // decoding the token
     const token = req.body.token;

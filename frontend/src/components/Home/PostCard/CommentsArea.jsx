@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { UserLoggedInContext } from "../../../utils/context/UserLoggedInContext";
+import { AppContext } from "../../../utils/context/AppContext";
 import defaultProfile from "../../../assets/default-profile.png";
 
 function CommentsArea({ setDateFormat }) {
   // User Data
-  const { userData } = useContext(UserLoggedInContext);
+  const { userData } = useContext(AppContext);
 
   return (
     <div className="post-card__comments-area">

@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { UserLoggedInContext } from "../utils/context/UserLoggedInContext";
+import { AppContext } from "../utils/context/AppContext";
 import Login from "../components/Login";
 import logo from "../assets/logo.png";
 
 function LoginPage() {
 
   // Login status
-  const { isLoggedIn } = useContext(UserLoggedInContext);
+  const { isLoggedIn } = useContext(AppContext);
 
   // A blank page is shown waiting to find out the user's login status
   if (isLoggedIn == null) {

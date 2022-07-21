@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AppContext } from "../../../utils/context/AppContext";
 import axios from "axios";
 import defaultProfile from "../../../assets/default-profile.png";
 import PostPreview from "./PostPreview";
 
-function NewPostForm({ userData, setDateFormat }) {
+function NewPostForm({ setDateFormat }) {
+
+  const { userData, setShouldRefresh } = useContext(AppContext);
 
   const [message, setMessage] = useState("");
   const [postImagePreview, setPostImagePreview] = useState(null);
@@ -78,7 +81,8 @@ function NewPostForm({ userData, setDateFormat }) {
       data: formData,
     })
       .then(() => {
-        document.location.reload();
+        //document.location.reload();
+        setShouldRefresh(true);
       })
       .catch((err) => {
         console.log(err);

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { UserLoggedInContext } from "../utils/context/UserLoggedInContext";
+import { AppContext } from "../utils/context/AppContext";
 import Navbar from "../components/Navbar";
 import ContactDetails from "../components/Profile/ContactDetails";
 import ChangePassword from "../components/Profile/ChangePassword";
@@ -9,7 +9,7 @@ import EntryDate from "../components/Profile/EntryDate";
 function ProfilePage() {
 
   // Login status
-  const { isLoggedIn, userData } = useContext(UserLoggedInContext);
+  const { isLoggedIn, userData } = useContext(AppContext);
 
   // A blank page is shown waiting to find out the user's login status
   if (isLoggedIn == null) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserLoggedInContext } from "../../../utils/context/UserLoggedInContext";
+import { AppContext } from "../../../utils/context/AppContext";
 import axios from "axios";
 import defaultProfile from "../../../assets/default-profile.png";
 import ContentToEdit from "./ContentToEdit";
@@ -8,7 +8,7 @@ import CommentsArea from "./CommentsArea";
 function PostCard({ post, setDateFormat }) {
 
   // User Data
-  const { userData } = useContext(UserLoggedInContext);
+  const { userData } = useContext(AppContext);
 
   // Post User Data
   const [postUserData, setPostUserData] = useState(null);
