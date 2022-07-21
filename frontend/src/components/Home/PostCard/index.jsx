@@ -6,7 +6,6 @@ import ContentToEdit from "./ContentToEdit";
 import CommentsArea from "./CommentsArea";
 
 function PostCard({ post, setDateFormat }) {
-
   // User Data
   const { userData, setShouldRefresh } = useContext(AppContext);
 
@@ -72,6 +71,29 @@ function PostCard({ post, setDateFormat }) {
       });
   }
 
+  // Function to remove the post
+  function deletePostCard(e) {
+    e.preventDefault();
+    let isSure = window.confirm("Voulez-vous supprimer le message ?");
+    if (isSure) {
+      axios({
+        method: "DELETE",
+        url: `http://localhost:${process.env.REACT_APP_API_PORT}/api/posts/${post._id}`,
+        headers: {
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("userToken")
+          )}`,
+        }
+      })
+        .then(() => {
+          setShouldRefresh(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
   return (
     <>
       {isLoading ? (
@@ -118,7 +140,10 @@ function PostCard({ post, setDateFormat }) {
                   <i className="fa fa-pencil post-card__menu-icon"></i>
                   <b>Modifier</b>
                 </button>
-                <button className="post-card__menu-button">
+                <button
+                  className="post-card__menu-button"
+                  onClick={deletePostCard}
+                >
                   <i className="fa fa-trash post-card__menu-icon"></i>
                   <b>Supprimer</b>
                 </button>
