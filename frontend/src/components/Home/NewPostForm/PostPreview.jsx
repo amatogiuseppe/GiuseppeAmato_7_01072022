@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { UserLoggedInContext } from "../../utils/context/UserLoggedInContext";
-import defaultProfile from "../../assets/default-profile.png";
+import { UserLoggedInContext } from "../../../utils/context/UserLoggedInContext";
+import defaultProfile from "../../../assets/default-profile.png";
 
 function PostPreview({
   setDateFormat,

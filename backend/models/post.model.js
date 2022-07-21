@@ -17,7 +17,7 @@ const postSchema = mongoose.Schema(
       type:
         [{
           commentUserId: { type: String },
-          commentContent: { type: String },
+          commentContent: { type: String, maxLength: 400 },
           timestamp: { type: Number }
         }],
       required: false,

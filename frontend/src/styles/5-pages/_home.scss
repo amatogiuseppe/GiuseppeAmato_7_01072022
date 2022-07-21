@@ -16,10 +16,12 @@
   }
 }
 
+/* --------- New Post Form ---------- */
 .new-post-form {
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   background-color: $secondary-color;
   margin-top: 30px;
+  margin-bottom: 20px;
   width: 100%;
   padding: 20px;
   @include medium {
@@ -61,7 +63,7 @@
   height: 45px;
   padding: 15px;
   margin-left: 15px;
-  @include rounded-sides;
+  border-radius: 25px;
   resize: none;
   overflow: hidden;
 }
@@ -70,7 +72,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  @include attached-image-button;
+  @include small-buttons;
   @include flexbox;
   &:hover {
     cursor: pointer;
@@ -86,9 +88,8 @@
   width: 100px;
   height: 40px;
   margin-left: 15px;
-  border-radius: 5px;
   font-weight: bold;
-  @include rounded-sides;
+  border-radius: 25px;
 }
 
 #submit-post {
@@ -134,7 +135,7 @@
   &__attached-image {
     display: block;
     max-width: 100%;
-    max-height: 500px;
+    max-height: 400px;
     width: auto;
     height: auto;
     margin: 0 auto;
@@ -156,5 +157,261 @@
   color: white;
   &:hover {
     cursor: pointer;
+  }
+}
+
+
+/* --------- Post Card ---------- */
+.post-card-container {
+  width: 100%;
+  height: 100%;
+  @include flexbox($direction: column);
+}
+.post-card {
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  @include medium {
+    width: 700px;
+    border-radius: 5px;
+  }
+  // Loading
+  &__loading {
+    width: 100%;
+    height: 200px;
+    background-color: white;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: $primary-color;
+    @include flexbox;
+    @include medium {
+      width: 700px;
+      border-radius: 5px;
+    }
+    .fa-spinner {
+      animation: rotation-spinner 1500ms linear infinite;
+    }
+  }
+  // Post Creator Info
+  &__post-creator-info {
+    position: relative;
+    padding-bottom: 10px;
+    @include flexbox($justify: space-between, $align: center);
+  }
+  &__creator {
+    @include flexbox($justify: left);
+  }
+  &__user-name {
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  &__timestamp {
+    font-size: 14px;
+    margin-left: 10px;
+    color: $tertiary-color;
+  }
+  &__menu {
+    width: 180px;
+    background-color: $secondary-color;
+    border-radius: 10px;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    padding: 10px;
+    user-select: none;
+    @include flexbox($align: left, $direction: column);
+    box-shadow: 0px 5px 5px rgb(0, 0, 0, 0.25);
+    z-index: 2;
+  }
+  &__menu-button {
+    @include flexbox($justify: left);
+    height: 32px;
+    border: none;
+    background-color: transparent;
+    @include default-buttons;
+  }
+  &__menu-icon {
+    padding: 0 10px 0 5px;
+  }
+  .ellipsis-button {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    @include flexbox;
+    @include ellipsis-buttons;
+  }
+  // Content to edit
+  &__content-to-edit {
+    margin-bottom: 10px;
+    background-color: $secondary-color;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  &__message-to-edit {
+    margin-bottom: 10px;
+  }
+  &__attached-image-container-to-edit {
+    position: relative;
+  }
+  &__attached-image-to-edit {
+    display: block;
+    max-width: 100%;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+  }
+  // Content
+  &__content {
+    margin-bottom: 20px;
+  }
+  &__message {
+    margin-bottom: 10px;
+  }
+  &__attached-image-container {
+    position: relative;
+  }
+  &__attached-image {
+    display: block;
+    max-width: 100%;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+  }
+  // Counter
+  &__counter-container {
+    width: 100%;
+    @include flexbox($justify: left);
+    padding-bottom: 10px;
+    font-size: 14px;
+  }
+  &__counter {
+    margin-right: 15px;
+    @include flexbox;
+  }
+  &__icon-container {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    @include flexbox;
+    background-color: white;
+    color: $primary-color;
+  }
+  &__counter-value {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  #like-container {
+    background-color: $primary-color;
+    color: white;
+  }
+  .comment-icon-size {
+    font-size: 20px;
+  }
+  // Buttons Area
+  &__buttons-area {
+    @include flexbox($justify: space-around);
+    width: 100%;
+    height: 45px;
+    border-top: 1px solid #ced0d4;
+    border-bottom: 1px solid #ced0d4;
+  }
+  &__buttons {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    width: 45%;
+    height: 40px;
+    border-radius: 5px;
+    @include default-buttons(lighten($tertiary-color, 57%));
+  }
+  &__button-name {
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  // Comments Area
+  &__comments-area {
+    background-color: white;
+    width: 100%;
+    padding-top: 20px;
+    @include flexbox($justify: left, $align: top, $direction: column);
+  }
+}
+
+/* --------- comment Card ---------- */
+.comment-card {
+  width: 100%;
+  display: flex;
+  margin-bottom: 10px;
+
+  &__right-side {
+    width: 100%;
+  }
+  &__top-right-side {
+    width: 100%;
+    @include flexbox($justify: space-between);
+  }
+  &__name-date {
+    @include flexbox;
+  }
+  &__user-name {
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 14px;
+  }
+  &__timestamp {
+    font-size: 12px;
+    margin-left: 10px;
+    color: $tertiary-color;
+  }
+  &__ellipsis {
+    font-size: 12px;
+  }
+}
+.user-miniature {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.comment-message {
+  width: 100%;
+  height: auto;
+  resize: none;
+  background-color: #f0f2f5;
+  border-radius: 15px;
+  border-top-left-radius: 0;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  color: black;
+}
+.comment-input-container {
+  @include flexbox;
+  width: 100%;
+  &__user-image {
+    width: 32px;
+  }
+  &__textarea {
+    width: 100%;
+    margin: 0 10px;
+  }
+  &__input {
+    border-radius: 25px;
+  }
+  &__button {
+    top: 50%;
+    right: 0;
+    border-radius: 50%;
+    border: none;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    background-color: $secondary-color;
+    color: $primary-color;
+    @include small-buttons;
   }
 }

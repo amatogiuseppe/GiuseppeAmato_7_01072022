@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import defaultProfile from "../../assets/default-profile.png";
+import defaultProfile from "../../../assets/default-profile.png";
 import PostPreview from "./PostPreview";
 
-function NewPostForm({ userData }) {
+function NewPostForm({ userData, setDateFormat }) {
+
   const [message, setMessage] = useState("");
   const [postImagePreview, setPostImagePreview] = useState(null);
 
@@ -11,23 +12,6 @@ function NewPostForm({ userData }) {
   const [imageFormatErrorMessage, setImageFormatErrorMessage] = useState(false);
 
   const [file, setFile] = useState(null);
-
-  // Function to set the format of the entry date
-  function setDateFormat(date) {
-    let dateSetting = {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    };
-    let timeSetting = {
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    let localDate = new Date(date).toLocaleDateString("fr-FR", dateSetting);
-    let localTime = new Date(date).toLocaleTimeString("fr-FR", timeSetting);
-    let datePost = `${localDate} - ${localTime}`;
-    return datePost;
-  }
 
   // Function to handle the post message
   function handlePostMessage(e) {
@@ -138,7 +122,6 @@ function NewPostForm({ userData }) {
 
       {/* Bottom Side */}
       <div className="new-post-form__bottom-side">
-
         {/* Attached Image Button */}
         <label id="post-camera-container" htmlFor="attached-image">
           <i id="post-camera" className="fa fa-camera"></i>
@@ -164,7 +147,6 @@ function NewPostForm({ userData }) {
             Envoyer
           </button>
         </div>
-
       </div>
     </>
   );

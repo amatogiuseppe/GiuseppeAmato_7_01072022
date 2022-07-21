@@ -78,8 +78,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    border-radius: 5px;
-    @include rounded-sides;
+    border-radius: 25px;
     background-color: darken($color, 5);
     opacity: 0;
     z-index: -1;
@@ -93,8 +92,8 @@
   }
 }
 
-/* --------- Profile Buttons ---------- */
-@mixin profile-buttons($color: lighten($tertiary-color, 60%)) {
+/* --------- Default Buttons ---------- */
+@mixin default-buttons($color: lighten($tertiary-color, 60%)) {
   position: relative;
   z-index: 1;
   &::after {
@@ -118,8 +117,8 @@
   }
 }
 
-/* --------- Attached Image Button ---------- */
-@mixin attached-image-button {
+/* --------- Small Buttons ---------- */
+@mixin small-buttons {
   position: relative;
   z-index: 1;
   &::after {
@@ -141,4 +140,35 @@
       opacity: 1;
     }
   }
+}
+
+/* --------- Ellipsis Buttons ---------- */
+@mixin ellipsis-buttons {
+  position: relative;
+  z-index: 1;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background-color: #f0f2f5;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 250ms;
+  }
+  &:hover {
+    cursor: pointer;
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+/* --------- Active Post Like ---------- */
+.active-post-like {
+  color: $primary-color;
+  font-weight: bold;
 }
