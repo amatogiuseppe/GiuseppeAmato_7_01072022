@@ -81,7 +81,6 @@ function NewPostForm({ setDateFormat }) {
       data: formData,
     })
       .then(() => {
-        //document.location.reload();
         setShouldRefresh(true);
       })
       .catch((err) => {

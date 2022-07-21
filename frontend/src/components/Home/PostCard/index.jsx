@@ -8,7 +8,7 @@ import CommentsArea from "./CommentsArea";
 function PostCard({ post, setDateFormat }) {
 
   // User Data
-  const { userData } = useContext(AppContext);
+  const { userData, setShouldRefresh } = useContext(AppContext);
 
   // Post User Data
   const [postUserData, setPostUserData] = useState(null);
@@ -50,6 +50,27 @@ function PostCard({ post, setDateFormat }) {
       })
       .catch((err) => console.log(err));
   }, [post.postUserId]);
+
+  // Function to handle likes
+  function handleLike(e) {
+    e.preventDefault();
+    axios({
+      method: "PUT",
+      url: `http://localhost:${process.env.REACT_APP_API_PORT}/api/posts/${post._id}/like`,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
+      },
+      data: post.likers.includes(userData._id) ? { like: 0 } : { like: 1 },
+    })
+      .then(() => {
+        setShouldRefresh(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <>
@@ -146,9 +167,21 @@ function PostCard({ post, setDateFormat }) {
           <div className="post-card__buttons-area">
             <button
               id="post-like"
-              className="post-card__buttons active-post-like"
+              className={
+                post.likers.includes(userData._id)
+                  ? "post-card__buttons active-post-like"
+                  : "post-card__buttons"
+              }
+              onClick={handleLike}
             >
-              <i id="like-icon" className="far fa-thumbs-up"></i>
+              <i
+                id="like-icon"
+                className={
+                  post.likers.includes(userData._id)
+                    ? "fa fa-thumbs-up"
+                    : "far fa-thumbs-up"
+                }
+              ></i>
               <span className="post-card__button-name">J'aime</span>
             </button>
 

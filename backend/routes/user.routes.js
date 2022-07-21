@@ -17,7 +17,6 @@ router.get('/', authMddlw.authorizeRequest, userCtrl.getAllUsers);
 router.get("/:userId", authMddlw.authorizeRequest, userCtrl.getOneUser);
 router.put("/:userId", authMddlw.authorizeRequest, multer, checkInputData, userCtrl.editUserInfo);
 router.put("/:userId/auth", authMddlw.authorizeRequest, checkInputData, userCtrl.editUserPassword);
-router.delete("/:userId", authMddlw.authorizeRequest, userCtrl.deleteUser);
 
 // Exporting the user router
 module.exports = router;
