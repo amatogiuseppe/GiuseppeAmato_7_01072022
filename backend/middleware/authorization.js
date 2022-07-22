@@ -19,8 +19,12 @@ exports.authorizeRequest = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN_KEY);
     const userId = decodedToken.userId;
-    // An object containing the user ID is added to the request
-    req.auth = { userId };
+    const isAdmin = decodedToken.isAdmin;
+    // An object containing the type of authorization is added to the request
+    req.auth = {
+      userId: userId,
+      isAdmin: isAdmin
+    };
     next();
   } catch {
     res.status(401).json({ message: 'Request not allowed!' });

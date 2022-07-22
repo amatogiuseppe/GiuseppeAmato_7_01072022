@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     imageUrl: { type: String, required: false, default: "../images/" },
+    isAdmin: { type: Boolean, required: false, default: false },
     biography : { type: String, required: false, maxLength: 800, trim: true }
   },
   {

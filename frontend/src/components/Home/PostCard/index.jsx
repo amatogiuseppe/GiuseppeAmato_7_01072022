@@ -124,11 +124,11 @@ function PostCard({ post, setDateFormat }) {
               </div>
             </div>
 
-            {userData._id === postUserData._id ? (
+            { userData._id === postUserData._id || userData.isAdmin ? (
               <div className="ellipsis-button" onClick={showPostMenu}>
                 <i className="fa fa-ellipsis-h"></i>
               </div>
-            ) : null}
+            ) : null }
 
             {/* Drop-down menu */}
             {postMenu ? (

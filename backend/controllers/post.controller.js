@@ -69,7 +69,7 @@ exports.editPost = (req, res, next) => {
         return res.status(404).json({ error: 'No post found!' });
       }
       // Case 2 - The specified post does not belong to the person requesting its modification
-      if (post.postUserId !== req.auth.userId) {
+      if ((post.postUserId !== req.auth.userId) && !req.auth.isAdmin) {
         return res.status(401).json({ error: 'Request not allowed!' });
       }
       // Case 3.1 - Editing the post: The user only wants to edit the post message, not add images
@@ -127,7 +127,7 @@ exports.deletePost = (req, res, next) => {
         return res.status(404).json({ error: 'No post found!' });
       }
       // Case 2 - The specified post does not belong to the person requesting its removal
-      if (post.postUserId !== req.auth.userId) {
+      if ((post.postUserId !== req.auth.userId) && !req.auth.isAdmin) {
         return res.status(401).json({ error: 'Request not allowed!' });
       }
       // Case 3 - The specified post exists and belongs to the person requesting its removal
