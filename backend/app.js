@@ -7,6 +7,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
@@ -30,6 +31,9 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+// Middleware to protect the application and clean up the request body by avoiding data injections
+app.use(mongoSanitize());
 
 // Middleware to handle the POST request and extract the JSON body
 app.use(express.json());

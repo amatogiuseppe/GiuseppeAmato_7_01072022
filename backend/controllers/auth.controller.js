@@ -6,6 +6,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const cryptoJs = require('crypto-js');
 
 const UserModel = require('../models/user.model');
 
@@ -24,6 +25,8 @@ exports.signup = (req, res, next) => {
       }
       // Case 2: The email typed in by the user is not used by anyone
       else {
+        // encrypting the email entered by the user
+        const encryptedEmail = cryptoJs.HmacSHA256(req.body.email, process.env.SECRET_EMAIL_KEY).toString();
         // using bcrypt to salt the password ten times
         bcrypt.hash(req.body.password, 10)
           .then(hash => {
@@ -31,7 +34,7 @@ exports.signup = (req, res, next) => {
             const user = new UserModel({
               name: req.body.name,
               surname: req.body.surname,
-              email: req.body.email,
+              email: encryptedEmail,
               password: hash
             });
             // saving the new user in the database
@@ -49,8 +52,10 @@ exports.signup = (req, res, next) => {
 //  User login
 //------------------------------------
 exports.login = (req, res, next) => {
+  // encrypting the email entered by the user
+  const encryptedEmail = cryptoJs.HmacSHA256(req.body.email, process.env.SECRET_EMAIL_KEY).toString();
   // the mongoose model checks that the email input by the user corresponds to a user in the database
-  UserModel.findOne({ email: req.body.email })
+  UserModel.findOne({ email: encryptedEmail })
     .then(user => {
       // Case 1: the user was not found
       if (!user) {
