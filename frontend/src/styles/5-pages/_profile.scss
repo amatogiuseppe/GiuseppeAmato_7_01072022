@@ -58,9 +58,6 @@
     font-size: 18px;
     color: black;
   }
-  &__error-message {
-    @include error-messages-style;
-  }
   &__photo-config {
     height: auto;
     &__img-container {
@@ -100,11 +97,6 @@
       margin-top: 70px;
     }
   }
-}
-.password-editing__error-message {
-  @include error-messages-style;
-  margin-bottom: 15px;
-  margin-top: 5px;
 }
 
 .profile-page__btn {

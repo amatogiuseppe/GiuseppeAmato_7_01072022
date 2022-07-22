@@ -16,6 +16,8 @@ function NewPostForm({ setDateFormat }) {
 
   const [file, setFile] = useState(null);
 
+  const [showPostPreview, setShowPostPreview] = useState(false);
+
   // Function to handle the post message
   function handlePostMessage(e) {
     // The height of the textarea changes dynamically based on the content
@@ -23,12 +25,14 @@ function NewPostForm({ setDateFormat }) {
     e.target.style.height = `${e.target.scrollHeight}px`;
     // By storing the message content in the variable "message"
     setMessage(e.target.value);
+    setShowPostPreview(true);
   }
 
   // Function called when the user clicks on the camera icon to attach an image
   function handleAttachedImage(e) {
     setFile(e.target.files[0]);
     setPostImagePreview(URL.createObjectURL(e.target.files[0]));
+    setShowPostPreview(true);
     if (e.target.files[0].size > 5000000) {
       setImageSizeErrorMessage(true);
     } else {
@@ -50,6 +54,9 @@ function NewPostForm({ setDateFormat }) {
     document.querySelector("#attached-image").value = null;
     setFile(null);
     setPostImagePreview(null);
+    if (!message) {
+      setShowPostPreview(false);
+    }
     setImageSizeErrorMessage(false);
     setImageFormatErrorMessage(false);
   }
@@ -59,6 +66,7 @@ function NewPostForm({ setDateFormat }) {
     e.preventDefault();
     removeAttachedImage();
     setMessage("");
+    setShowPostPreview(false);
     document.querySelector("#post-input").style.height = "inherit";
   }
 
@@ -67,7 +75,7 @@ function NewPostForm({ setDateFormat }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("postContent", message ? message : null);
+    formData.append("postContent", message);
     formData.append("file", file);
 
     axios({
@@ -82,6 +90,7 @@ function NewPostForm({ setDateFormat }) {
     })
       .then(() => {
         setShouldRefresh(true);
+        resetPost(e);
       })
       .catch((err) => {
         console.log(err);
@@ -112,7 +121,7 @@ function NewPostForm({ setDateFormat }) {
       </div>
 
       {/* Post Preview */}
-      {(message || postImagePreview) && (
+      { showPostPreview && (
         <PostPreview
           setDateFormat={setDateFormat}
           message={message}
@@ -142,13 +151,19 @@ function NewPostForm({ setDateFormat }) {
           <button id="annul-post" className="post-buttons" onClick={resetPost}>
             Annuler
           </button>
-          <button
-            id="submit-post"
-            className="post-buttons"
-            onClick={handleSubmit}
-          >
-            Envoyer
-          </button>
+          { (message && !imageSizeErrorMessage && !imageFormatErrorMessage) ?
+            <button
+              id="submit-post"
+              className="post-buttons"
+              onClick={handleSubmit}
+            >
+              Envoyer
+            </button>
+            :
+            <button id="submit-post-disabled" className="post-buttons">
+              Envoyer
+            </button>
+          }
         </div>
       </div>
     </>

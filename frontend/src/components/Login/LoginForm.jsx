@@ -73,7 +73,7 @@ function LoginForm({ handleModals, formSubmit }) {
       {/* Possible error message due to invalid email */}
       {emailErrorMessage && (
         <div className="login-form__error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i className="fas fa-exclamation-circle"></i>
           <span className="login-form__error-message__text">
             E-mail incorrect!
           </span>
@@ -100,7 +100,7 @@ function LoginForm({ handleModals, formSubmit }) {
       {/* Possible error message due to invalid password */}
       {passwordErrorMessage && (
         <div className="login-form__error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i className="fas fa-exclamation-circle"></i>
           <span className="login-form__error-message__text">
             Mot de passe incorrect!
           </span>

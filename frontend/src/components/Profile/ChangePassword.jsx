@@ -101,9 +101,9 @@ function ChangePassword({ userData }) {
         </div>
         {/* Possible error message: the password entered does not match the old one */}
         {oldPasswordErrorMessage && (
-          <div className="password-editing__error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span className="password-editing__error-message__text">
+          <div className="error-message-container">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>
               L'ancien mot de passe est incorrect !
             </span>
           </div>
@@ -127,18 +127,18 @@ function ChangePassword({ userData }) {
         </div>
         {/* This error message may appear because the old and new passwords are the same */}
         {identicalPasswordsErrorMessage && (
-          <div className="password-editing__error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span className="profile-editing__error-message__text">
+          <div className="error-message-container">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>
               Le nouveau mot de passe doit être différent de l'ancien !
             </span>
           </div>
         )}
         {/* Possible error message due to invalid password */}
         {newPasswordErrorMessage && (
-          <div className="password-editing__error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span className="profile-editing__error-message__text">
+          <div className="error-message-container">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>
               Votre mot de passe doit contenir :
               <ul>
                 <li>Au moins 8 caractères</li>

@@ -143,7 +143,7 @@ function SignupForm({
       {/* Possible error message due to invalid name */}
       {nameErrorMessage && (
         <div className="login-form__error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i className="fas fa-exclamation-circle"></i>
           <span className="login-form__error-message__text">
             Nom non valide. <br /> Veuillez respecter ce format : Jon
           </span>
@@ -162,7 +162,7 @@ function SignupForm({
       {/* Possible error message due to invalid surname */}
       {surnameErrorMessage && (
         <div className="login-form__error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i className="fas fa-exclamation-circle"></i>
           <span className="login-form__error-message__text">
             Nom de famille invalide. <br /> Veuillez respecter ce format : Snow
           </span>
@@ -181,7 +181,7 @@ function SignupForm({
       {/* Possible error message due to invalid email format */}
       {emailErrorMessage && (
         <div className="login-form__error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i className="fas fa-exclamation-circle"></i>
           <span className="login-form__error-message__text">
             E-mail non valide. <br /> Veuillez respecter ce format : abc@def.gh
           </span>
@@ -191,7 +191,7 @@ function SignupForm({
       {/* Possible error message due to invalid email because already used */}
       {uniqueEmailErrorMessage && (
         <div className="login-form__error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i className="fas fa-exclamation-circle"></i>
           <span className="login-form__error-message__text">
             E-mail non valide. <br /> Cet e-mail est déjà utilisé.
           </span>
@@ -236,7 +236,7 @@ function SignupForm({
       {/* Possible error message due to invalid password */}
       {passwordErrorMessage && (
         <div className="login-form__error-message">
-          <i class="fas fa-exclamation-circle"></i>
+          <i className="fas fa-exclamation-circle"></i>
           <span className="login-form__error-message__text">
             Votre mot de passe doit contenir :
             <ul>

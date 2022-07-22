@@ -72,16 +72,41 @@ exports.editPost = (req, res, next) => {
       if (post.postUserId !== req.auth.userId) {
         return res.status(401).json({ error: 'Request not allowed!' });
       }
-      // Case 3.1 - Editing the post: the user wants to change only the post information, but not the image
-      let postObject = { postContent: req.body.postContent };
-      // Case 3.2 - Editing the post: the user may upload a new image along with the post information
-      if (req.file) {
-        const filename = post.imageUrl.split('/images/')[1];
-        postObject = {
-          postContent: req.body.postContent,
-          imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      // Case 3.1 - Editing the post: The user only wants to edit the post message, not add images
+        // Case 3.1.1: The user only wants to edit the message of the post
+        let postObject = { postContent: req.body.postContent }
+        // Case 3.1.2: The user wants to edit the post message and/or remove the attached image
+        if (req.body.imageUrl && req.body.imageUrl == "../images/") {
+          const filename = post.imageUrl.split('/images/')[1];
+          postObject = {
+            postContent: req.body.postContent,
+            imageUrl: req.body.imageUrl
+          }
+          fs.unlink(`images/${filename}`, () => { postObject });
         }
-        fs.unlink(`images/${filename}`, () => { postObject })
+      // Case 3.2 - Editing the post: the user may upload a new image along with the post message
+      if (req.file) {
+        // Case 3.2.1: If the user enters a file with an invalid format
+        if (
+          req.file.mimetype != "image/jpg" &&
+          req.file.mimetype != "image/png" &&
+          req.file.mimetype != "image/jpeg"
+        ) {
+          postObject = {
+            postContent: req.body.postContent,
+            imageUrl: "../images/"
+          }
+          fs.unlink(`images/${req.file.filename}`, () => { postObject });
+        }
+        // Case 3.2.2: If the user enters a file with an valid format
+        else {
+          const filename = post.imageUrl.split('/images/')[1];
+          postObject = {
+            postContent: req.body.postContent,
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+          }
+          fs.unlink(`images/${filename}`, () => { postObject })
+        }
       }
       // Updating the post
       PostModel.updateOne({ _id: req.params.postId }, { ...postObject, _id: req.params.postId })

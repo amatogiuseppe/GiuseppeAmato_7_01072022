@@ -6,7 +6,7 @@ import ContentToEdit from "./ContentToEdit";
 import CommentsArea from "./CommentsArea";
 
 function PostCard({ post, setDateFormat }) {
-  // User Data
+
   const { userData, setShouldRefresh } = useContext(AppContext);
 
   // Post User Data
@@ -152,7 +152,7 @@ function PostCard({ post, setDateFormat }) {
           </div>
 
           {/* Content to edit*/}
-          {editingForm ? <ContentToEdit /> : null}
+          {editingForm ? <ContentToEdit post={post} setDateFormat={setDateFormat} setEditingForm={setEditingForm}/> : null}
 
           {/* Content*/}
           {editingForm ? null : (

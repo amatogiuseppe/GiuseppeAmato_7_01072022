@@ -35,7 +35,6 @@
     @include flexbox($justify: space-between);
     padding: 10px 20px 0 20px;
     border-top: 1px solid $tertiary-color;
-
   }
   &__top-side {
     padding-bottom: 10px;
@@ -100,6 +99,11 @@
   color: white;
   border: none;
   @include post-buttons;
+}
+#submit-post-disabled {
+  background-color: $secondary-color;
+  color: $tertiary-color;
+  border: none;
 }
 #annul-post {
   background-color: white;
@@ -248,13 +252,13 @@
   }
   // Content to edit
   &__content-to-edit {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     background-color: $secondary-color;
     padding: 20px;
     border-radius: 10px;
   }
   &__message-to-edit {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   &__attached-image-container-to-edit {
     position: relative;
@@ -266,7 +270,17 @@
     width: auto;
     height: auto;
     margin: 0 auto;
+    margin-bottom: 15px;
   }
+  &__bottom-side-to-edit {
+    @include flexbox($justify: space-between);
+    padding: 10px 20px 0 20px;
+    border-top: 1px solid $tertiary-color;
+  }
+  &__buttons-to-edit {
+    @include flexbox;
+  }
+
   // Content
   &__content {
     margin-bottom: 20px;
@@ -308,10 +322,7 @@
     margin-left: 5px;
     font-weight: bold;
   }
-  #like-container {
-    background-color: $primary-color;
-    color: white;
-  }
+
   .comment-icon-size {
     font-size: 20px;
   }
@@ -342,6 +353,70 @@
     width: 100%;
     padding-top: 20px;
     @include flexbox($justify: left, $align: top, $direction: column);
+  }
+}
+#post-input-to-edit {
+  background-color: white;
+  border: none;
+  width: 100%;
+  height: 45px;
+  padding: 15px;
+  border-radius: 25px;
+  resize: none;
+  overflow: hidden;
+}
+#like-container {
+  background-color: $primary-color;
+  color: white;
+}
+#post-camera-container-to-edit {
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  @include small-buttons;
+  @include flexbox;
+  &:hover {
+    cursor: pointer;
+  }
+}
+#post-camera-to-edit {
+  font-size: 20px;
+  margin-right: 0;
+}
+#attached-image-to-edit {
+  display: none;
+}
+#submit-post-to-edit {
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  @include post-buttons;
+}
+#submit-post-to-edit-disabled {
+  background-color: $secondary-color;
+  color: $tertiary-color;
+  border: none;
+}
+#annul-post-to-edit {
+  background-color: white;
+  color: $primary-color;
+  border: 1px dashed $tertiary-color;
+  @include post-buttons($color: $secondary-color);
+}
+#remove-attached-image-to-edit {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  border: 1px solid white;
+  background-color: $primary-color;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  @include flexbox;
+  color: white;
+  &:hover {
+    cursor: pointer;
   }
 }
 

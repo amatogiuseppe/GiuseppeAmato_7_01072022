@@ -142,9 +142,9 @@ function ContactDetails({ userData }) {
 
         {/* Possible error message due to invalid size */}
         {imageSizeErrorMessage && (
-          <div className="profile-editing__error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span className="profile-editing__error-message__text">
+          <div className="error-message-container">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>
               La photo dépasse le seuil autorisé. <br /> La photo ne doit pas
               dépasser 5 Mo
             </span>
@@ -153,9 +153,9 @@ function ContactDetails({ userData }) {
 
         {/* Possible error message due to invalid format */}
         {imageFormatErrorMessage && (
-          <div className="profile-editing__error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span className="profile-editing__error-message__text">
+          <div className="error-message-container">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>
               Format invalide. <br /> Les formats acceptés sont les suivants :
               JPG, JPEG, PNG
             </span>
@@ -186,9 +186,9 @@ function ContactDetails({ userData }) {
 
         {/* Possible error message due to invalid name */}
         {nameErrorMessage && (
-          <div className="profile-editing__error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span className="profile-editing__error-message__text">
+          <div className="error-message-container">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>
               Nom non valide. <br /> Veuillez respecter ce format : Jon
             </span>
           </div>
@@ -208,9 +208,9 @@ function ContactDetails({ userData }) {
 
         {/* Possible error message due to invalid surname */}
         {surnameErrorMessage && (
-          <div className="profile-editing__error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span className="profile-editing__error-message__text">
+          <div className="error-message-container">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>
               Nom de famille invalide. <br /> Veuillez respecter ce format :
               Snow
             </span>

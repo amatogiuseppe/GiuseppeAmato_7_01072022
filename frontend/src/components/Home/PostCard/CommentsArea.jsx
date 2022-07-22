@@ -130,7 +130,7 @@ function CommentsArea({ setDateFormat }) {
 
         <div>
           <button className="comment-input-container__button">
-            <i class="fa fa-paper-plane"></i>
+            <i className="fa fa-paper-plane"></i>
           </button>
         </div>
       </div>

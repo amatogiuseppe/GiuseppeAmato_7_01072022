@@ -58,9 +58,9 @@ function PostPreview({
 
           {/* Possible error message due to invalid size */}
           {imageSizeErrorMessage && (
-            <div className="password-editing__error-message">
-              <i class="fas fa-exclamation-circle"></i>
-              <span className="profile-editing__error-message__text">
+            <div className="error-message-container">
+              <i className="fas fa-exclamation-circle"></i>
+              <span>
                 La photo dépasse le seuil autorisé. <br />
                 La photo ne doit pas dépasser 5 Mo.
               </span>
@@ -69,9 +69,9 @@ function PostPreview({
 
           {/* Possible error message due to invalid format */}
           {imageFormatErrorMessage && (
-            <div className="password-editing__error-message">
-              <i class="fas fa-exclamation-circle"></i>
-              <span className="profile-editing__error-message__text">
+            <div className="error-message-container">
+              <i className="fas fa-exclamation-circle"></i>
+              <span>
                 Le format de l'image n'est pas valide. <br /> Les formats
                 acceptés sont les suivants : JPG, JPEG, PNG
               </span>
