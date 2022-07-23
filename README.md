@@ -14,12 +14,14 @@ Clone this repo. You will need to have Node and `npm` installed locally on your 
 ***
 ## Backend Installation
 From the "backend" folder of the project, run `npm install`.
+An .env file must be created in the same 'backend' folder specifying all the necessary environment variables (see .env-example).
 You can then run the server with `npm start`.
 The server should run on `localhost` with default port `5000`.
 Open [http://localhost:5000](http://localhost:5000) to view it in your browser.
 
 ## Frontend Installation
 From the "frontend" folder of the project, run `npm install`.
+An .env file must be created in the same 'frontend' folder specifying all the necessary environment variables (see .env-example).
 You can then run the react application with `npm start`.
 The react application should run on `localhost` with default port `3000`.
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.

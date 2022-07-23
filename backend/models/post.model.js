@@ -12,17 +12,7 @@ const postSchema = mongoose.Schema(
     postContent: { type: String, required: true, maxLength: 800, trim: true },
     imageUrl: { type: String, required: false, default: "../images/" },
     likes: { type: Number, required: false, default: 0 },
-    likers: { type: [String], required: false, default: [] },
-    comments: {
-      type:
-        [{
-          commentUserId: { type: String },
-          commentContent: { type: String, maxLength: 400 },
-          timestamp: { type: Number }
-        }],
-      required: false,
-      default: []
-    }
+    likers: { type: [String], required: false, default: [] }
   },
   {
     timestamps: true

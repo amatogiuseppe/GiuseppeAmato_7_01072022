@@ -226,7 +226,7 @@ function ContactDetails({ userData }) {
             <input
               type="email"
               name="email"
-              placeholder={userData.email}
+              placeholder="Ce champ n'est pas modifiable"
               disabled
             />
           </div>
@@ -254,8 +254,6 @@ function ContactDetails({ userData }) {
         </button>
 
       </form>
-
-      <p>*Ce champ n'est pas modifiable.</p>
 
     </div>
   );

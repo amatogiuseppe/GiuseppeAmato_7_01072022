@@ -17,9 +17,5 @@ router.put('/:postId', authMddlw.authorizeRequest, multer, postCtrl.editPost);
 router.put('/:postId/like', authMddlw.authorizeRequest, postCtrl.likePost);
 router.delete('/:postId', authMddlw.authorizeRequest, postCtrl.deletePost);
 
-router.put('/:postId/comments', authMddlw.authorizeRequest, postCtrl.createComment);
-router.put('/:postId/comments/:commentId', authMddlw.authorizeRequest, postCtrl.editComment);
-router.put('/:postId/comments/:commentId/delete', authMddlw.authorizeRequest, postCtrl.deleteComment);
-
 // Exporting the post router
 module.exports = router;

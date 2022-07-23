@@ -323,9 +323,7 @@
     font-weight: bold;
   }
 
-  .comment-icon-size {
-    font-size: 20px;
-  }
+
   // Buttons Area
   &__buttons-area {
     @include flexbox($justify: space-around);
@@ -346,13 +344,6 @@
   &__button-name {
     font-size: 16px;
     margin-left: 10px;
-  }
-  // Comments Area
-  &__comments-area {
-    background-color: white;
-    width: 100%;
-    padding-top: 20px;
-    @include flexbox($justify: left, $align: top, $direction: column);
   }
 }
 #post-input-to-edit {
@@ -420,76 +411,8 @@
   }
 }
 
-/* --------- comment Card ---------- */
-.comment-card {
-  width: 100%;
-  display: flex;
-  margin-bottom: 10px;
-
-  &__right-side {
-    width: 100%;
-  }
-  &__top-right-side {
-    width: 100%;
-    @include flexbox($justify: space-between);
-  }
-  &__name-date {
-    @include flexbox;
-  }
-  &__user-name {
-    font-weight: bold;
-    margin-left: 10px;
-    font-size: 14px;
-  }
-  &__timestamp {
-    font-size: 12px;
-    margin-left: 10px;
-    color: $tertiary-color;
-  }
-  &__ellipsis {
-    font-size: 12px;
-  }
-}
 .user-miniature {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-}
-.comment-message {
-  width: 100%;
-  height: auto;
-  resize: none;
-  background-color: #f0f2f5;
-  border-radius: 15px;
-  border-top-left-radius: 0;
-  border: none;
-  padding: 10px;
-  font-size: 14px;
-  color: black;
-}
-.comment-input-container {
-  @include flexbox;
-  width: 100%;
-  &__user-image {
-    width: 32px;
-  }
-  &__textarea {
-    width: 100%;
-    margin: 0 10px;
-  }
-  &__input {
-    border-radius: 25px;
-  }
-  &__button {
-    top: 50%;
-    right: 0;
-    border-radius: 50%;
-    border: none;
-    background-color: white;
-    width: 40px;
-    height: 40px;
-    background-color: $secondary-color;
-    color: $primary-color;
-    @include small-buttons;
-  }
 }

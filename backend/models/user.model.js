@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     imageUrl: { type: String, required: false, default: "../images/" },
     isAdmin: { type: Boolean, required: false, default: false },
-    biography : { type: String, required: false, maxLength: 800, trim: true }
+    biography : { type: String, required: false, default: "Écrivez quelque chose...", maxLength: 800, trim: true }
   },
   {
     timestamps: true

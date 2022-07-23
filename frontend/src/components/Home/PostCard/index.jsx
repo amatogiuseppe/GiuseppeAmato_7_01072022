@@ -3,7 +3,6 @@ import { AppContext } from "../../../utils/context/AppContext";
 import axios from "axios";
 import defaultProfile from "../../../assets/default-profile.png";
 import ContentToEdit from "./ContentToEdit";
-import CommentsArea from "./CommentsArea";
 
 function PostCard({ post, setDateFormat }) {
 
@@ -18,7 +17,6 @@ function PostCard({ post, setDateFormat }) {
   // User interface status
   const [postMenu, setPostMenu] = useState(false);
   const [editingForm, setEditingForm] = useState(false);
-  const [commentsArea, setCommentsArea] = useState(false);
 
   // Features to have a better user experience
   function showPostMenu() {
@@ -27,9 +25,6 @@ function PostCard({ post, setDateFormat }) {
   function showContentToEdit() {
     setPostMenu(false);
     setEditingForm(true);
-  }
-  function showComments() {
-    commentsArea ? setCommentsArea(false) : setCommentsArea(true);
   }
 
   // Function to fetch the data of the user who wrote the post
@@ -178,14 +173,6 @@ function PostCard({ post, setDateFormat }) {
               </div>
               <span className="post-card__counter-value">{post.likes}</span>
             </div>
-            <div className="post-card__counter">
-              <div id="comment-container" className="post-card__icon-container">
-                <i className="far fa-comment comment-icon-size"></i>
-              </div>
-              <span className="post-card__counter-value">
-                {post.comments.length}
-              </span>
-            </div>
           </div>
 
           {/* Buttons Area */}
@@ -210,18 +197,7 @@ function PostCard({ post, setDateFormat }) {
               <span className="post-card__button-name">J'aime</span>
             </button>
 
-            <button
-              id="post-comments"
-              className="post-card__buttons"
-              onClick={showComments}
-            >
-              <i className="far fa-comment"></i>
-              <span className="post-card__button-name">Commentaires</span>
-            </button>
           </div>
-
-          {/* Comments Area */}
-          {commentsArea ? <CommentsArea setDateFormat={setDateFormat} /> : null}
         </div>
       )}
     </>
